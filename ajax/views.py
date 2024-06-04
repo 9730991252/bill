@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.db.models import Sum
 from django.db.models import Q
 # Create your views here.
-
+ 
 
 def add_to_cart(request):
     if request.method == 'GET':
@@ -92,3 +92,18 @@ def customer_filter(request):
             }
         t = render_to_string('ajax/customer_filter.html', context)
         return JsonResponse({'data': t})
+
+ 
+
+def sell_item_filter(request):
+    if request.method == 'GET':
+        words = request.GET['words']
+        medical_id = request.GET['medical_id']
+        if 2 < len(words):
+            i=Add_stock.objects.filter(medical_id=medical_id,stock_status=1,item__item_name__icontains=words)
+        context={
+                'i':i
+                }
+        print(i)
+    t = render_to_string('ajax/sell_item_filter.html', context)
+    return JsonResponse({'data': t})

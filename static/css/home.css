@@ -124,6 +124,7 @@ header {
 .header__form {
   width: 100%;
   max-width: 350px;
+  overflow: hidden;
 }
 
 .header__form form {
@@ -510,8 +511,8 @@ header {
 }
 
 @media (width < 780px) {
-  .nav__links {
-    justify-content: space-evenly;
+  .nav__links .link{
+    font-size: 18px;
   }
 
   .header__container {
@@ -524,26 +525,40 @@ header {
     flex-direction: column;
     text-align: center;
   }
-
+  
   .service__grid {
     grid-template-columns: repeat(1, 1fr);
   }
-
+  
   .why__grid {
     column-gap: 1rem;
   }
-
+  
   .doctors__header {
     flex-direction: column;
     text-align: center;
   }
-
+  
   .doctors__grid {
     grid-template-columns: repeat(1, 1fr);
   }
-
+  
   .footer__bar__content {
     flex-direction: column;
     gap: 1rem;
+  }
+}
+@media (width < 400px) {
+  .link{
+    font-size: 15px !important;
+    background-color: #fb923c;
+  }
+  .header__form form{
+    width: 200px !important;
+  }
+}
+@media only screen and (max-width: 400px) {
+  body {
+    background-color: rgb(0, 191, 255) !important;
   }
 }
