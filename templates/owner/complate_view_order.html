@@ -1,0 +1,123 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .bd{
+        display: flex;
+        justify-content: space-between;
+    }
+    .customer{
+        display: flex;
+        justify-content: space-between;
+
+    }
+</style>
+<style media="print">
+    @page{
+    size: 3in 5in;
+    margin: 0in;
+    padding: 0in;
+  }
+  .bd{
+        display: flex;
+    }
+  
+  .p{
+    display: none;
+  }
+  
+  #t{
+    font-size: 14px;
+    line-height: 2px;
+  }
+  .bd{
+        display: flex;
+        justify-content: space-between;
+    }
+  .customer{
+        display: flex;
+        justify-content: space-between;
+    }
+  </style>
+<h6 class="p" >Welcome.{{m.medical_name}}</h6>
+<a class="btn btn-danger m-3 p" href="/owner/owner_dashboard/">back</a>
+
+
+
+
+<div class="container border">
+        <div class="row">
+            <div class="col-11">
+                <h3 class="text-center">{{m.medical_name}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-11">
+            <h6 class="text-center">{{m.address}}</h6>
+        </div>
+        </div>
+
+        <div class="customer">
+            <div class="customer_name"><h6>Customer Name- {{customer_name}}</h6></div>
+            <div class="customer_mobile"><h6>Customer Mobile- {{mobile}}</h6></div>
+        </div>
+
+        <div class="bd">
+            <div class="bill_number"><h6>Bill Number-  {{bill_number}}</h6></div>
+            <div class="date"><h6>Date-  {{date}}</h6></div>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="container border">
+          
+        <table id="t" class="table mb-0">
+          
+          <thead>
+            <tr>
+              <div class="row">
+              <div class="col-8"><th >Item </th></div>
+              <div class="col-1"><th >Qty</th></div>
+              <div class="col-1"><th >Price</th></div>
+              <div class="col-2"><th >Total Price</th></div>
+            </div>
+            </tr>
+          
+          </thead>
+          <tbody>
+            {% for o in o %}
+            <tr>
+              <div class="row">
+              <div class="col-8"><td>{{o.item_name}}</td></div>
+              <div class="col-1"><td>{{o.qty}}</td></div>
+              <div class="col-1"><td>{{o.price}}</td></div>
+              <div class="col-2"><td>{{o.total_price}}</td></div>
+            </div>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h6>Total Amount Rs. {{t}}</h6>
+        <h6>Thank You Visit Again</h6>
+      </div>
+    
+
+      <div class="container">
+        <button type="button" class="btn btn-primary my-3 p" onclick="Bill_print()">Print</button>
+      </div>
+    
+      <script>
+        function Bill_print(){
+            window.print();
+            }
+    
+      </script>
+
+
+{% endblock content %}

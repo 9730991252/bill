@@ -1,0 +1,54 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/nav_bar.html' %}
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .bill_box{
+        background-color: hwb(38 90% 0%);
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        width: 300px;
+        margin: auto;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        padding: 0px;
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        grid-row-gap: 0px;
+        align-items: center;
+        padding-bottom: 10px;
+    }
+    .bill_box div{
+        display: flex;
+        justify-content: center;
+        
+    }
+</style>
+    {% include 'include/owner_menu.html' %}
+
+{% for o in o %}
+<div class="bill_box">
+    <div class="bill_number">Bill Number&nbsp;<strong>{{o.order_filter}}</strong></div>
+    <div class="employee_name">Employee Name&nbsp;<strong>kartic kale</strong></div>
+    <div class="customer_name">Customer Name&nbsp;<strong>{{o.customer.customer_name}}</strong></div>
+    <div class="amount">Total Amount&nbsp;<strong>{{o.total_amount}}</strong></div>
+    <div >
+        <div class="status"><button class="btn btn-danger btn-sm m-1">UnPaid</button></div>
+        <div><a class="btn btn-primary btn-sm form-control m-1" href="{% url 'complate_view_order' o.order_filter %}">View</a></div>
+    </div>
+
+</div>
+{% endfor %}
+
+
+
+
+
+{% endblock content %}

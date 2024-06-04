@@ -1,0 +1,115 @@
+{% extends 'home/base.html' %}
+{% block content %}
+{% include 'include/alert.html' %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Add_Medical ">
+    Add Medical 
+  </button>
+<br>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th>Medical Name</th>
+        <th>Mobile</th>
+        <th>Pin</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in m %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{m.medical_name}}</td>
+        <td>{{m.mobile}}</td>
+        <td>{{m.pin}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- Add Modal -->
+<div class="modal fade" id="Add_Medical" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="POST"> {% csrf_token %}
+              <br>
+              <!--* medical_name *-->
+              <div class="mb-3">
+                  <label for="medical_name">Medical Name</label>
+                  <input  name="medical_name" placeholder="Medical Name" class="form-control"  required>
+              </div>
+              <!--* end medical_name !-->
+              <!--* Address *-->
+                <div class="mb-3">
+                  <label for="karyalay_name_marathi">Address</label>
+                    <input  name="address" placeholder="Address" class="form-control" required>
+                </div>
+                <!--* end Address !-->
+              <!--* mobile *-->
+              <div class="mb-3">
+                  <label for="karyalay_name_marathi">mobile</label>
+                  <input type="number" name="mobile" oninput="check_number()" id="number" placeholder="mobile" class="form-control" required>
+                </div>
+                
+              <!--* end mobile !-->
+                  <!--* pin *-->
+                  <div class="mb-3">
+                      <label for="karyalay_name_marathi">Secret Pin</label>
+                      <input type="number" oninput="check_pin()" id="pin"  name="pin" placeholder="pin" class="form-control" required>
+                  </div>
+                  <!--*/?-> end pin <-?/!-->
+                <br>
+              <button type="submit" class="btn btn-primary" name="Add_Medical">Add</button>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  function check_number(){
+      mobile=document.getElementById('number').value;
+      if (mobile.length <= 9 ){
+      document.getElementById('number').style.borderColor ='green';return false;
+    }
+      if (mobile.length >= 11 ){
+      alert('only 10 digit number ')
+    }
+      if (mobile.length == 10 ){
+          document.getElementById('number').style.borderColor ='';return true;
+         
+    }
+  }
+  function check_pin(){
+      pin=document.getElementById('pin').value;
+  
+      if (pin.length <= 3 ){
+      document.getElementById('pin').style.borderColor ='green';return false;
+    }
+      if (pin.length >= 5 ){
+      alert('only 4 digit number Secret Pin')
+    }
+      if (pin.length == 4 ){
+          document.getElementById('pin').style.borderColor ='';return true;
+         
+    }
+  }
+  
+  
+  
+  </script>
+  
+
+{% endblock content %}

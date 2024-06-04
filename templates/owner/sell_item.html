@@ -1,0 +1,427 @@
+{% extends 'home/base.html' %}
+{% load total_tag %}
+{% block content %}
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .footer {
+        position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: rgb(233, 227, 227);
+    text-align: center;
+    display: grid;
+    grid-template-columns: 5fr 2fr 1fr;
+    }
+    .total_qty{
+        background-color: red;
+        border-radius: 50%;
+        color: #fff;
+        
+        height: 35px;
+        width: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .footer input{
+        width: 90%;
+        margin: auto;
+    }
+    .item_box{
+        width: 300px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .item_image{
+        width: 100%;
+        height: 200px;
+        border-radius: 20px;
+    }
+    .item_image img{
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .item_name{
+        height: 50px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    h6{
+        margin-left: 10px;
+    }
+    .item_footer{
+        display: grid;
+        grid-template-columns: 3fr 1fr 3fr 1fr;
+        gap: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+        background-color: rgb(226, 249, 249);
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .price input, .qty input{
+        width: 100%;
+    }
+    .confirm{
+        width: 80%;
+        margin: auto;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .minus button, .plus button{
+        line-height: 17px;
+        margin-top: 37px;
+    }
+    .price p, .qty p{
+        width: 100%;
+        text-align: center;
+    }
+    .stock{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .totle{
+        text-align: center;
+    }
+    .added_success{
+        color: #fff;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .added_success h6{
+        border-radius: 10px;
+        padding: 5px;
+        background-color: green;
+        width: fit-content;
+    }
+    .card_list{
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin-top: 10px;
+    }
+    .head{
+        font-weight: 500;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+        border-bottom: 1px solid rgb(193, 193, 193);
+        background-color: #ffd4d4;
+    }
+    .main{
+        font-weight: 500;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+        border-bottom: 1px solid rgb(193, 193, 193);
+        grid-row-gap: 20px;
+    }
+    .main div{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .total_price strong{
+        font-size: 18px;
+    }
+    .total_price{
+        text-align: left;
+        margin-left: 5px;
+    }
+    .customer_box{
+padding: 10px;
+        background-color: rgb(220, 255, 255);
+    }
+    .name{
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px;
+    }
+    #customer_mobile{
+        width: 40%;
+    } 
+    #customer_name{
+        width: 50%;
+    } 
+    .customer_filter{
+        width: 300px;
+        border-radius: 10px;
+        background-color: rgb(255, 239, 223);
+        margin: auto;
+        margin-top: 10px;
+        text-align: center;
+        padding: 10px;
+    }
+    .hedder{
+        display: flex;
+        justify-content: center;
+        justify-content: space-evenly;
+        font-weight: 600;
+    }
+    </style>
+<!-- Button trigger modal -->
+
+<h6>Welcome.{{m.medical_name}}</h6>
+<input type="hidden" id="medical_id" value="{{m.id}}">
+<a class="btn btn-danger" href="/owner/owner_dashboard/">back</a>
+
+
+<div class="card_list">
+
+    <div class="head">
+        <div>Item Name</div>
+        <div>Qty</div>
+        <div>Price</div>
+        <div>Total</div>
+        <div>Action</div>
+    </div>
+ 
+<div  id="cart_ruselt" >
+    {% for cart in cart %}
+    <div class="main">
+        <div>{{cart.item.item_name}}</div>
+        <div>{{cart.qty}}</div>
+        <div>{{cart.price}}</div>
+        <div>{{cart.total_price}}</div>
+        <div><form method="POST">{% csrf_token %}<input type="hidden" name="cart_id" value="{{cart.id}}" ><button name="Remove_cart_item" type="submit" class="btn btn-danger" style="line-height: 10px;">x</button></form></div>
+    </div>
+    {% endfor %}
+    <div class="total_price"><strong>Total Price Rs.{% total_price_owner 1 %}</strong></div>
+</div>
+    <div class="customer_box">
+        {% include 'include/alert.html' %}
+    <form method="POST">{% csrf_token %}
+        <div class="name">
+            <input type="text" oninput="search_customer()" name="customer_name" id="customer_name" value="{{c.customer_name}}" placeholder="Customer Name">
+            <input type="number" oninput="search_customer()" name="mobile" id="customer_mobile" value="{{c.mobile}}" placeholder="Mobile">
+        </div>
+            <div class="address">
+            <textarea placeholder="Address" oninput="search_customer()" name="address" id="customer_address"  rows="2" cols="40">{{c.address}}</textarea>
+            </div>
+
+            {% if c == '' %}
+                <button class="btn btn-primary" type="submit" name="Add_Customer" >Add</button>
+            {% else %}
+            {% endif %}
+        </form>
+    </div>
+    
+<div style="display: none;" id="place_btn">
+    <form method="POST">{% csrf_token %}
+            <input type="hidden" name="customer_id" id="customer_id"  value="{{c.id}}">     
+            <button class="btn btn-warning m-3" name="Complete_Order">Complete Order</button>
+    </form>
+    </div>
+    
+    <div id="customer_result">
+
+    </div>
+
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+<div id="search_ruselt">
+  {% for i in i %}
+    <div class="item_box">
+        <div class="item_image"><img src="{{i.item.image.url}}" alt=""></div>
+        <div class="item_name">
+            <div class="name">{{i.item.item_name}}</div>
+        </div>
+
+        <div class="stock">
+            Stock<strong id="stock_qty{{i.id}}" >{{i.stock_qty}}</strong>
+            <h6>expiry date {{i.expiry_date}}</h6>
+        </div>
+        <div></div>
+
+        <div class="item_footer">
+            <div class="price"> <p>Price</p> <input id="prc{{i.id}}" oninput="calculte_price('{{i.id}}')"  type="number" value="{{i.price}}"></div>
+            <div class="minus"><button type="button" onclick="minus('{{i.id}}')" class="btn btn-success px-3">-</button></div>
+            <div class="qty"> <p>Qty</p> <input type="number" id="qty{{i.id}}" oninput="set_stock('{{i.id}}')" placeholder=" Qty "></input></div>
+            <div class="plus"><button type="button" onclick="plus('{{i.id}}')"  class="btn btn-success px-3" >+</button></div>
+            </div>
+            <div class="totle">
+                Totle Price Rs.  <strong id="set_prc{{i.id}}"></strong>
+
+                <strong id="set_success{{i.id}}"></strong>
+            </div>
+            <div class="confirm"><button onclick="add_to_cart('{{i.id}}','{{i.item.id}}')" type="button" class="btn btn-danger mx-auto added_success">Confirm </button></div>
+
+    </div>
+{% endfor %}
+</div>
+
+
+
+    <div class="footer">
+        <div>
+        <form method="GET">
+            <input oninput="search_item()" type="text"  id="input_words" class="form-control" placeholder="search item">
+        </form>
+    </div>
+        <div id="total_label"><p >Total Qty</p></div>
+        <div class="total_qty"><strong id="ng">{{cart.count}}</strong></div>
+
+    </div>
+
+    <strong   id="c_id"  value="{{c.id}}"></strong>
+    <script>   
+ function search_item(){
+    var words = document.getElementById('input_words').value;
+    var medical_id = document.getElementById('medical_id').value;
+    $.ajax({
+        url: "{% url 'new_item_filter' %}",
+        method: "GET",
+        data:{
+            words:words,
+            medical_id:medical_id,
+      
+            },
+            success: function(res){
+                $("#search_ruselt").html(res.data);
+                //document.getElementById('#result').html(res.data);
+            }
+    })
+ }
+
+
+
+ function plus(id){
+    var qty = document.getElementById('qty'+id).value;
+    var stock_qty = document.getElementById('stock_qty'+id).innerText;
+    var price = document.getElementById('prc'+id).value;
+    s=stock_qty
+    s=parseInt(s)
+    if(qty < s ){
+        qty++;
+        document.getElementById('qty'+id).value=qty;     
+    }
+    else {
+        document.getElementById('qty'+id).value="";     
+    }
+    if(qty > s){
+
+        document.getElementById('qty'+id).value=s; 
+    }
+    p=qty*price
+    document.getElementById('set_prc'+id).innerHTML=p;
+    }
+ function minus(id){
+    var qty = document.getElementById('qty'+id).value;
+    var price = document.getElementById('prc'+id).value;
+    if(qty > 1 ){
+        qty--;
+        document.getElementById('qty'+id).value=qty;     
+    }
+    p=qty*price
+    document.getElementById('set_prc'+id).innerHTML=p;
+    }
+
+function calculte_price(id){
+    var price = document.getElementById('prc'+id).value;
+    var qty = document.getElementById('qty'+id).value;
+    p=qty*price
+    document.getElementById('set_prc'+id).innerHTML=p;
+}
+
+
+function set_stock(id){
+    var qty = document.getElementById('qty'+id).value;
+    var stock_qty = document.getElementById('stock_qty'+id).innerText;
+    var price = document.getElementById('prc'+id).value;
+    s=parseInt(stock_qty)
+    if(qty > s){
+
+document.getElementById('qty'+id).value =""; 
+}
+    p=qty*price
+    document.getElementById('set_prc'+id).innerHTML=p;
+
+}
+
+
+
+
+
+function add_to_cart(id,item_id){
+    var qty = document.getElementById('qty'+id).value;
+    if (qty == ""){ 
+        document.getElementById('qty'+id).style.borderColor ='red';return false;
+    }
+    var price = document.getElementById('prc'+id).value;
+    var medical_id = document.getElementById('medical_id').value;
+    $.ajax({
+        url: "{% url 'add_to_cart' %}",
+        method: "GET",
+        data:{
+            qty:qty,
+            price:price,
+            medical_id:medical_id,
+            add_stock_id:id,
+            item_id:item_id
+            },
+            success: function(res){
+                $("#ng").html(res.ng);
+                $("#cart_ruselt").html(res.data);
+                if(res.ng != 0 ){
+        document.getElementById('place_btn').style.display='';
+    }
+            }
+
+    })
+}
+
+function search_customer(){
+    var customer_mobile = document.getElementById('customer_mobile').value;
+    var customer_name = document.getElementById('customer_name').value;
+    var customer_address = document.getElementById('customer_address').value;
+    if (customer_mobile.length >= 11 ){
+        alert('only 10 digit mobile ')
+    }
+    $.ajax({
+        url: "{% url 'customer_filter' %}",
+        method: "GET",
+        data:{
+            customer_mobile:customer_mobile,
+            customer_name:customer_name,
+            customer_address:customer_address,
+      
+            },
+            success: function(res){
+                console.log(res.data)
+                $("#customer_result").html(res.data);
+                //document.getElementById('#result').html(res.data);
+            }
+    })
+ }
+
+ place_btn()
+
+function place_btn(){
+    a=document.getElementById('ng').innerHTML;
+    if(a != 0 ){
+        document.getElementById('place_btn').style.display='';
+    }
+
+}
+
+
+
+</script>
+{% endblock content %}

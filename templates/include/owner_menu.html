@@ -1,0 +1,15 @@
+<style>
+    .btn {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+</style>
+    
+    <div class="btn">
+        <a class="btn btn-success" href="{% url 'sell_item' %}">New Bill</a>
+        <a class="btn btn-warning" href="{% url 'add_stock' %}">Add Stock</a>
+        <a class="btn btn-primary" href="{% url 'item' %}">Add Items</a>
+        <a class="btn btn-info" href="{% url 'complate_bill' %}">All Bills</a>
+    </div>

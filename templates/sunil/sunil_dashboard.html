@@ -1,0 +1,10 @@
+{% extends 'home/base.html' %}
+{% block content %}
+
+{% include 'include/alert.html' %}
+<!-- Button trigger modal -->
+<a  class="btn btn-primary" href="{% url 'add_medical' %}">
+   Add Medical 
+</a>
+
+{% endblock content %} 

@@ -1,0 +1,70 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+{% include 'include/nav_bar.html' %}
+{% include 'include/owner_menu.html' %}
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
+        .all_bill_box{
+            margin: auto;
+            margin: 10px;
+            padding: 10px;
+            
+        }
+        .heeding{
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .item{
+            padding: 10px;
+        }
+        .box_head{
+            text-align: center;
+            font-weight: 700;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        .box_item{
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    </style>
+
+
+
+<div class="all_bill_box">
+    <div class="heeding border">
+        <h4>Your Complate Bills</h4>
+    </div>
+    <div class="item border">
+        <div class="box_head">
+            <div class="bill_number">Bill Number</div>
+            <div class="total_amount">Date</div>
+            <div class="total_amount">Total Amount</div>
+            <div class="action">Action</div>
+        </div>
+        <div class="box_item">
+            {% for o in o %}
+
+            <div class="num">Bill Number &nbsp;{{o.order_filter}}</div>
+            <div class="total">{{o.ordered_date}}</div>
+            <div class="total">{{o.total_amount}}</div>
+            <div class=""><a class="btn btn-primary btn-sm form-control m-1" href="{% url 'complate_view_order' o.order_filter %}">View</a></div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

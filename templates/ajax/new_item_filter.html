@@ -1,0 +1,12 @@
+{% if i|length < 1 %}
+    No Item
+    {% else %}
+{% for i in i %}
+    <div class="item_box">
+        <div class="item_image"><img src="{{i.image.url}}" alt=""></div>
+        <div class="item_name">
+            {{i.item_name}}
+        </div>
+    </div>
+{% endfor %}
+{% endif %}

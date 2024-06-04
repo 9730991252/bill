@@ -1,0 +1,29 @@
+{% if i|length < 1 %}
+    No Item
+    {% else %}
+  {% for i in i %}
+  <form method="POST">{% csrf_token %}
+    <div class="item_box">
+        <div class="item_image"><img src="{{i.image.url}}" alt=""></div>
+        <div class="item_name" >
+            {{i.item_name}}
+        </div>
+        <input type="hidden" name="item_id" value="{{i.id}}">
+        <div class="items">
+            <div> <p>price</p> <input name="price" placeholder="price"  class="price form-control" type="number"></div>
+            <div> <p>qty</p> <input name="add_qty" class="qty form-control" placeholder="qty" type="number"></div>
+        </div>
+        <div class="item_footer">
+            <div> <p>invice number</p> <input name="invice_number" class="invice_number form-control" placeholder="invice number" type="text"></div>
+            <div> <p>expiry date</p> <input name="expiry_date" class="date form-control" placeholder="date" type="text"></div>
+        </div>
+        <div class="add_btn">
+            <button name="Add_Stock_Item" class="btn btn-success form-control">Add stock</button>
+        </div>
+    </div>
+</form>
+
+
+
+{% endfor %}
+{% endif %}

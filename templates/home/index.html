@@ -1,0 +1,38 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock head %}
+{% block content %}
+<header>
+      <nav class="section__container nav__container">
+        <div class="nav__logo" href="/">Bill</div>
+        <ul class="nav__links">
+          <li class="link"><a href="">Home</a>
+          <li class="link"><a href="#">About Us</a></li>
+        </ul>
+        <a class="btn" href="/contact_us/">Contact Us</a>
+      </nav>
+      <div class="section__container header__container">
+        <div class="header__content">
+          <h2>Providing an medical billing Software </h2>
+          <p>
+            Welcome to, Medical Billing software.
+            we are providing the best service and best software.
+            This is made for Medicals and it is very useful.
+          </p>
+          <a class="btn" href="/contact_us/">Contact Us for Booking</a>
+        </div>
+        <div class="header__form">
+          <form method="POST"> {% csrf_token %} 
+            <h4>Login</h4>
+            {% include 'include/alert.html' %}
+            <input type="number"  oninput="check_number()" id="number"  name="mobile" placeholder="Mobile" />
+            <input type="password" oninput="check_pin()" id="pin" name="pin" placeholder="Pin" />
+            <button class="btn form__btn" type="submit" name="Login">Login</button>
+          </form>
+        </div>
+      </div>
+    </header>
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock content %}

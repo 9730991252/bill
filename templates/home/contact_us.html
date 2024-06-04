@@ -1,0 +1,41 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block head %}
+   <link rel="stylesheet" href="{% static 'css/contact_us.css' %}">
+{% endblock head %}
+{% block content %}
+{% include 'include/nav_bar.html' %}
+<div class="main_box">
+   <div class="main">
+      <strong class="card-title">Call Us</strong>
+      <div class="card-item">
+         <b class="text">Contact our support team</b>
+         <div class="time">Everyday 6:00 am - 10:00 pm.</div>
+         <a href="tel:9730991252" class="no-underline">9730991252</a>
+         <div class="marathi">
+            <b class="text">आमच्या सपोर्ट टीमशी संपर्क साधा</b>
+            <div class="time time_marathi">दररोज सकाळी 6 ते संध्याकाळी 10 वा</div>
+            <a href="tel:9730991252" class="no-underline">+१९ ९७३०९९१२५२</a>
+            <div class="gmail">
+               <b class="text">Gmail </b>
+               <div class="time gmail">sunilkale101@gmail.com</div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="main_box">
+   <div class="main Address">
+      <strong class="card-title">Address</strong>
+      <ul class="card-item">
+         <div class="title">
+         <strong class="Prasanna_Digitle">Prasanna Digital</strong>
+      </div>
+         <strong class="address-item ">गाव - कोर्टी</strong><br><br>
+         <strong class="address-item">तालुका - करमाळा</strong><br><br>
+         <strong class="address-item">जिल्हा - सोलापूर</strong><br>
+      </ul>
+   </div>
+</div>
+{% endblock content %}
