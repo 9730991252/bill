@@ -21,7 +21,7 @@ class Add_stock(models.Model):
     add_qty = models.IntegerField()
     stock_qty = models.IntegerField()
     invice_number = models.IntegerField(null=True)
-    expiry_date = models.CharField(max_length=100, null=True)
+    expiry_date = models.DateField(max_length=100, null=True)
     stock_status = models.IntegerField(choices=INSTOCK_OUTSTOCK_CHOICE,default=1)
     added_date = models.DateField(auto_now_add=True)
 

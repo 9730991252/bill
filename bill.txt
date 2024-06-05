@@ -1,4 +1,13 @@
-pip install pillow
+
+********** restart ******
+
+sudo systemctl daemon-reload
+
+sudo systemctl restart okmybill.com.gunicorn
+
+
+
+
 
 
 
