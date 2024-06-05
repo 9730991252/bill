@@ -7,20 +7,6 @@
         padding: 0;
         box-sizing: border-box;
     }
-    .footer {
-        position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-color: rgb(233, 227, 227);
-    text-align: center;
-    }
-    .footer input{
-        width: 90%;
-        margin: auto;
-    }
-
     .item_box{
         overflow: hidden;
         width: 300px;
@@ -30,21 +16,13 @@
         margin-top: 10px;
         margin-bottom: 20px;
     }
-    .item_image{
-        width: 100%;
-        height: 100%;
-        border-radius: 20px;
-    }
-    .item_image img{
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-    }
     .item_name{
         height: 50px;
-        text-align: center;
         font-size: 20px;
         font-weight: 600;
         margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 15px;
     }
     h6{
         margin-left: 10px;
@@ -89,59 +67,53 @@
 
     <div>
 
-    {% if i|length < 1 %}
-    No Item
-    {% else %}
-  {% for i in i %}
   <form method="POST">{% csrf_token %}
     <div class="item_box">
-        <div class="item_image"><img src="{{i.image.url}}" alt=""></div>
         <div class="item_name" >
-            {{i.item_name}}
+            <input type="text" class="form-control" placeholder="Item Name" name="item_name">
         </div>
         <input type="hidden" name="item_id" value="{{i.id}}">
-        <div class="items">
-            <div> <p>price</p> <input name="price" placeholder="price"  class="price form-control" type="number"></div>
-            <div> <p>qty</p> <input name="add_qty" class="qty form-control" placeholder="qty" type="number"></div>
+        <div class="m-3">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Select type</option>
+                <option value="Capsules">Capsules</option>
+                <option value="Drops">Drops</option>
+                <option value="Injections">Injections</option>
+                <option value="Tablet">Tablet</option>
+                <option value="Inhalers">Inhalers</option>
+                <option value="stationery">stationery items</option>
+            </select>
         </div>
+        <div class="items">
+            <div> <p>Purchase price</p> <input name="price" placeholder="Sell price"  class="price form-control" type="number"></div>
+            <div> <p>Sell price</p> <input name="price" placeholder="Sell price"  class="price form-control" type="number"></div>
+        </div>
+        <div class="items">
+            <div> <p>qty</p> <input name="add_qty" class="qty form-control" placeholder="qty" type="number"></div>
+            <div> <p>Batch number</p> <input name="add_qty" class="qty form-control" placeholder="Batch number" type="number"></div>
+        </div>
+
         <div class="item_footer">
             <div> <p>invice number</p> <input name="invice_number" class="invice_number form-control" placeholder="invice number" type="text"></div>
-            <div> <p>expiry date</p> <input name="expiry_date" class="date form-control" placeholder="date" type="text"></div>
+            <div> <p>expiry date</p> <input name="expiry_date" class="date form-control" type="date"></div>
+        </div>
+
+
+        <div class="item_footer">
+            <div> <p>GST </p> <select class="form-select" aria-label="Default select example">
+                <option selected>Select %</option>
+                <option value="Capsules">5%</option>
+                <option value="Drops">10%</option>
+                <option value="Injections">15%</option>
+                <option value="Tablet">18%</option>
+            </select></div>
         </div>
         <div class="add_btn">
             <button name="Add_Stock_Item" class="btn btn-success form-control">Add stock</button>
         </div>
     </div>
 </form>
-{% endfor %}
-{% endif %}
 </div>
 </div>
 
-
-
-    <div class="footer">
-        <form method="GET">
-            <input oninput="search_item()" type="text"  id="input_words" class="form-control" placeholder="search item">
-        </form>
-    </div>
-    <script>   
- function search_item(){
-    var words = document.getElementById('input_words').value;
-    var medical_id = document.getElementById('medical_id').value;
-    $.ajax({
-        url: "{% url 'stock_item_filter' %}",
-        method: "GET",
-        data:{
-            words:words,
-            medical_id:medical_id,
-      
-            },
-            success: function(res){
-                $("#search_ruselt").html(res.data);
-                //document.getElementById('#result').html(res.data);
-            }
-    })
- }
-</script>
 {% endblock content %}

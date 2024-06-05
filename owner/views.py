@@ -20,22 +20,13 @@ def owner_dashboard(request):
         return redirect('/')
     
      
-def item(request):
+def item_name(request):
     if request.session.has_key('owner_mobile'):
         owner_mobile = request.session['owner_mobile']
         context={}
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
-        if 'Add_Item'in request.POST:
-            item_name = request.POST.get('item_name')
-            image = request.FILES.get("image")
-            Item(
-                medical_id=m.id,
-                item_name = item_name,
-                image = image
-            ).save()
-            return redirect('/owner/item/')
         context={
                 'i':Item.objects.filter(medical_id=m.id)[0:1],
                 'm':m
@@ -44,22 +35,6 @@ def item(request):
     else:
         return redirect('/')
     
-
-
-
-
-def stock_item_filter(request):
-    if request.method == 'GET':
-        words = request.GET['words']
-        medical_id = request.GET['medical_id']
-        if 2 < len(words):
-
-            i=Item.objects.filter(medical_id=medical_id,item_name__icontains=words)
-    context={
-            'i':i
-        }
-    t = render_to_string('ajax/stock_item_filter.html', context)
-    return JsonResponse({'data': t})
 
 
 

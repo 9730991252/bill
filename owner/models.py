@@ -6,18 +6,7 @@ from PIL import Image
 class Item(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
     item_name=models.CharField(max_length=500)
-    image= models.ImageField(upload_to="images",default="",null=True,blank=True)
-    status=models.IntegerField(default=1)
     date=models.DateField(auto_now_add=True,null=True)
-
-
-    def save(self, *args,**kwargs):
-        super().save(*args,**kwargs)
-        image = Image.open(self.image.path)
-        output_size = (300,300)
-        image.thumbnail(output_size)
-        image.save(self.image.path)
-
 
 
 INSTOCK_OUTSTOCK_CHOICE=(

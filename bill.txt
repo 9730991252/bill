@@ -189,6 +189,13 @@ sudo systemctl restart okmybill.com.gunicorn
 
 
 
+--------------------------------------- ssl ------------------
+
+sudo certbot --nginx -d narayaniorder.com -d www.narayaniorder.com
+
+
+
+
 
 
 
