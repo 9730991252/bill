@@ -40,6 +40,25 @@
         background-color: rgb(147, 247, 140);
         border-radius: 6.5px;
     }
+    .items_qty{
+        margin: 20px;
+        margin-top: 1px;
+        font-weight: 500;
+        text-align: center;
+        background-color: rgb(147, 247, 140);
+        border-radius: 6.5px;
+    }
+    .items_qty_footer{
+        display: flex;
+        justify-content: space-between;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .qty_p{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
     .price, .invice_number{
         width: 120px;
         text-align: center;
@@ -70,6 +89,13 @@
 
 
     }
+    .total_qty{
+        display: flex;
+        justify-content: center;
+    }
+    .total_qty div{
+        margin-right: 10px;
+    }
     </style>
 <h6>Welcome.{{m.medical_name}}</h6>
 <input type="hidden" id="medical_id" value="{{m.id}}">
@@ -86,6 +112,9 @@
         </div>
         <input type="hidden" name="item_id" value="{{i.id}}">
         <div class="m-3">
+        <div><input type="text" placeholder="Company Name" class="form-control"></div>
+        <br>
+            <div>
             <select class="form-select" aria-label="Default select example">
                 <option selected>Select type</option>
                 <option value="Capsules">Capsules</option>
@@ -95,6 +124,7 @@
                 <option value="Inhalers">Inhalers</option>
                 <option value="stationery">stationery items</option>
             </select>
+        </div>
         </div>
         <div class="items">
             <div> <p>Purchase price</p> <input name="price" placeholder="Price" id="prc" oninput="calculte_price()" class="price form-control" type="number"></div>
@@ -106,14 +136,61 @@
                 <option value="18">18 %</option>
             </select></div>
         </div>
-        <div class="items">
-            <div> <p>Qty</p> <input name="add_qty" class="qty form-control" id="qty" oninput="calculte_price()" placeholder="Qty" type="number"></div>
-            <div> <p>discount Qty</p> <input name="add_qty" class="qty form-control" placeholder="Disc Qty" type="number"></div>
+        <div class="items_qty">
+            <div class="items_qty_footer">
+                <div><p class="qty_p">Qty</p><input name="add_qty" class="qty for_qty sub form-control" id="qty" oninput="calculte_price(),calculte_qty()" placeholder="Qty" type="number"></div>
+                <div><p class="qty_p">Select Stripe</p><select class="sub form-select" aria-label="Default select example" id="stripe" oninput="calculte_qty()">
+
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select></div>
+
+            </div>
+            
+            <div class="total_qty">
+                <div><h6 class="qty_p">Total Qty</h6></div>
+                <div><strong  id="set_qty"></strong></div>
+                </div>
         </div>
         <div class="tpp">
             <div><h6>Taxable Purchase Rs.</h6></div>
             <div><strong  id="set_prc"></strong></div>
+        </div>
+
+        <div class="items_qty">
+            <div class="items_qty_footer">
+                <div><p class="qty_p">discount Qty</p><input name="add_qty" class="qty for_qty sub form-control" id="d_qty" placeholder="Qty" type="number" oninput="calculte_discount_qty()"></div>
+                <div><p class="qty_p">Select Stripe</p><select class="sub form-select" aria-label="Default select example" id="d_stripe" oninput="calculte_discount_qty()">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select></div>
+
             </div>
+            
+            <div class="total_qty">
+                <div><h6 class="qty_p">Total Discount Qty</h6></div>
+                <div><strong  id="set_d_qty"></strong></div>
+                </div>
+        </div>
+
+
+
         <div class="item_footer">
             <div> <p>Invice number</p> <input name="invice_number" class="invice_number form-control" placeholder="Invice number" type="text"></div>
             <div> <p>Expiry date</p> <input name="expiry_date" class="date form-control" type="date"></div>
@@ -139,13 +216,30 @@ function calculte_price(){
     var price = document.getElementById('prc').value;
     var qty = document.getElementById('qty').value;
     var gst = document.getElementById('gst').value;
-    console.log(gst)
     p=qty*price
     var c = (parseFloat(p)*parseFloat(gst))/100;
     p+=c
     p = Math.ceil(p);
     document.getElementById('set_prc').innerHTML=p;
 }
+function calculte_qty(){
+    var qty = document.getElementById('qty').value;
+    var stripe = document.getElementById('stripe').value;
+    q=qty*stripe
+    q = Math.ceil(q);
+    console.log(q)
+    document.getElementById('set_qty').innerHTML=q;
+    
+    }
 
+
+function calculte_discount_qty(){
+    var d_qty = document.getElementById('d_qty').value;
+    var d_stripe = document.getElementById('d_stripe').value;
+    d=d_qty*d_stripe
+    d = Math.ceil(d);
+    document.getElementById('set_d_qty').innerHTML=d;
+    
+    }
 </script>
 {% endblock content %}
