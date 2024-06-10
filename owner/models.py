@@ -6,6 +6,7 @@ from PIL import Image
 class Item(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
     item_name=models.CharField(max_length=500)
+    item_type = models.CharField(max_length=100,null=True)
     date=models.DateField(auto_now_add=True,null=True)
     company_name = models.CharField(max_length=100,null=True)
 
@@ -39,10 +40,15 @@ class Add_stock(models.Model):
     added_date = models.DateField(auto_now_add=True)
 
 class Customer(models.Model):
+    medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
     customer_name = models.CharField(max_length=200,null=True,blank=True)
     mobile = models.IntegerField(null=True,blank=True)
     address = models.CharField(max_length=500,null=True,blank=True)
     
+class Doctor(models.Model):
+    medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
+    doctor_name = models.CharField(max_length=200,null=True,blank=True)
+    degree = models.CharField(max_length=200,null=True,blank=True)
 
 
 STATUS_CHOICES = (
@@ -53,16 +59,17 @@ STATUS_CHOICES = (
     
 class Cart(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
-    item = models.ForeignKey(Item,on_delete=models.PROTECT,null=True)
     add_stock = models.ForeignKey(Add_stock,on_delete=models.PROTECT,null=True)
+    customer = models.ForeignKey(Customer,on_delete=models.PROTECT,null=True)
+    doctor = models.ForeignKey(Doctor,on_delete=models.PROTECT,null=True)
     qty = models.IntegerField()
-    price = models.FloatField(default=0,null=True)
+    sell_price_per_unit = models.FloatField(null=True)
     total_price=models.FloatField(default=0,null=True)
     def save(self,*args,**kwargs):
-        price=eval(self.price)
+        sell_price_per_unit=eval(self.sell_price_per_unit)
         qty=eval(self.qty)
         #print(type(qty))
-        self.total_price=price*qty
+        self.total_price=sell_price_per_unit*qty
         super(Cart,self).save()
 
 class Order_Master(models.Model):

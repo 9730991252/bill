@@ -8,4 +8,4 @@ urlpatterns = [
     path('complate_view_order/<int:id>', views.complate_view_order,name='complate_view_order'),   
     path('complate_bill/', views.complate_bill,name='complate_bill'),   
   
-] 
+]  

@@ -173,6 +173,35 @@ padding: 10px;
     #search_ruselt{
         margin-bottom: 200px;
     }
+    .doctor_box{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(199, 255, 211);
+    }
+    .doctor_name{
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    } 
+
+    .doctor_name input{
+        width: 100%;
+    }
+    .doctor_filter{
+        align-items: center;
+        border: 1px solid rgb(216, 216, 216);
+        margin: 10px;
+    }
+    .doctor_filter_footer{
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+    .ci{
+        background-color: #d4fff0;
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 5px;
+    }
     </style>
 <!-- Button trigger modal -->
 
@@ -194,9 +223,9 @@ padding: 10px;
 <div  id="cart_ruselt" >
     {% for cart in cart %}
     <div class="main">
-        <div>{{cart.item.item_name}}</div>
+        <div>{{cart.add_stock.item_name}}</div>
         <div>{{cart.qty}}</div>
-        <div>{{cart.price}}</div>
+        <div>{{cart.sell_price_per_unit}}</div>
         <div>{{cart.total_price}}</div>
         <div><form method="POST">{% csrf_token %}<input type="hidden" name="cart_id" value="{{cart.id}}" ><button name="Remove_cart_item" type="submit" class="btn btn-danger" style="line-height: 10px;">x</button></form></div>
     </div>
@@ -206,36 +235,57 @@ padding: 10px;
     <div class="customer_box">
         {% include 'include/alert.html' %}
     <form method="POST">{% csrf_token %}
+        <input type="hidden" id="c_id" value="{{c.id}}">
         <div class="name">
-            <input type="text" oninput="search_customer()" name="customer_name" id="customer_name" value="{{c.customer_name}}" placeholder="Customer Name">
-            <input type="number" oninput="search_customer()" name="mobile" id="customer_mobile" value="{{c.mobile}}" placeholder="Mobile">
+            <input type="text" oninput="search_customer()" name="customer_name" id="customer_name" value="{{c.customer_name}}" placeholder="Customer Name" required>
+            <input type="number" oninput="search_customer()" name="mobile" id="customer_mobile" value="{{c.mobile}}" placeholder="Mobile" required>
         </div>
             <div class="address">
-            <textarea placeholder="Address" oninput="search_customer()" name="address" id="customer_address"  rows="2" cols="40">{{c.address}}</textarea>
+            <textarea placeholder="Address" oninput="search_customer()" name="address" id="customer_address"  rows="2" cols="35" required>{{c.address}}</textarea>
             </div>
 
             {% if c == '' %}
-                <button class="btn btn-primary" type="submit" name="Add_Customer" >Add</button>
+                <button class="btn btn-primary" type="submit" name="Add_Customer" >Add Customer</button>
             {% else %}
             {% endif %}
         </form>
     </div>
-    
-<div style="display: none;" id="place_btn">
-    <form method="POST">{% csrf_token %}
-            <input type="hidden" name="customer_id" id="customer_id"  value="{{c.id}}">     
-            <button class="btn btn-warning m-3" name="Complete_Order">Complete Order</button>
-    </form>
-    </div>
-    
     <div id="customer_result">
 
     </div>
+    {% if c == '' %}
+
+    {% else %}
+    <div class="doctor_box">
+        <form method="POST">
+            <input type="hidden" name="customer_id" value="{{c.id}}">
+            <input type="hidden" id="doctor_id" value="{{doctor.id}}">
+        <div class="doctor_name">
+            <div><input type="text" oninput="doctor_search()" id="doctor_name" name="doctor_name" value="{{doctor.doctor_name}}" placeholder="Doctor Name" required></div>
+            <div><input type="text" oninput="doctor_search()" id="degree" name="degree" value="{{doctor.degree}}" placeholder="Degree" required></div>
+        </div>
+            <button class="btn btn-success mt-2" type="submit" name="Add_Doctor" >Add Doctor</button>
+    </form>
+    </div>
+    {% endif %}
+    
+
+    <div id="doctor_result">
+
+    </div>
+
+
+
+<div style="display: none;" id="place_btn">
+    <form method="POST">{% csrf_token %}
+            <input type="hidden" name="customer_id" id="customer_id"  value="{{c.id}}">     
+            <button class="btn btn-warning m-3 " name="Complete_Order">Complete Order</button>
+    </form>
+    </div>
+    
 
 </div>
 
-<br>
-<br>
 <br>
 <br>
 
@@ -243,11 +293,13 @@ padding: 10px;
 <div id="search_ruselt">
   {% for i in i %}
     <div class="item_box">
-        <div class="item_image"><img src="{{i.item.image.url}}" alt=""></div>
         <div class="item_name">
-            <div class="name">{{i.item.item_name}}</div>
+            <div class="name">{{i.item_name}}</div>
         </div>
-
+        <div class="stock ci">
+            <h6>{{i.company_name}}</h6>
+            <h6>{{i.item_type}}</h6>
+        </div>
         <div class="stock">
             Stock<strong id="stock_qty{{i.id}}" >{{i.stock_qty}}</strong>
             <h6>expiry date {{i.expiry_date}}</h6>
@@ -255,7 +307,7 @@ padding: 10px;
         <div></div>
 
         <div class="item_footer">
-            <div class="price"> <p>Price</p> <input id="prc{{i.id}}" oninput="calculte_price('{{i.id}}')"  type="number" value="{{i.price}}"></div>
+            <div class="price"> <p>Price</p> <input id="prc{{i.id}}" oninput="calculte_price('{{i.id}}')"  type="number" value="{{i.sell_price_per_unit}}"></div>
             <div class="minus"><button type="button" onclick="minus('{{i.id}}')" class="btn btn-success px-3">-</button></div>
             <div class="qty"> <p>Qty</p> <input type="number" id="qty{{i.id}}" oninput="set_stock('{{i.id}}')" placeholder=" Qty "></input></div>
             <div class="plus"><button type="button" onclick="plus('{{i.id}}')"  class="btn btn-success px-3" >+</button></div>
@@ -265,7 +317,7 @@ padding: 10px;
 
                 <strong id="set_success{{i.id}}"></strong>
             </div>
-            <div class="confirm"><button onclick="add_to_cart('{{i.id}}','{{i.item.id}}')" type="button" class="btn btn-danger mx-auto added_success">Confirm </button></div>
+            <div class="confirm"><button onclick="add_to_cart('{{i.id}}')" type="button" class="btn btn-danger mx-auto added_success">Confirm </button></div>
 
     </div>
 {% endfor %}
@@ -284,7 +336,6 @@ padding: 10px;
 
     </div>
 
-    <strong   id="c_id"  value="{{c.id}}"></strong>
     <script>   
  function sell_item_filter(){
     var words = document.getElementById('input_words').value;
@@ -298,7 +349,6 @@ padding: 10px;
       
             },
             success: function(res){
-                console.log(res.data)
                 $("#search_ruselt").html(res.data);
                 //document.getElementById('#result').html(res.data);
             }
@@ -364,34 +414,6 @@ document.getElementById('qty'+id).value ="";
 
 
 
-function add_to_cart(id,item_id){
-    var qty = document.getElementById('qty'+id).value;
-    if (qty == ""){ 
-        document.getElementById('qty'+id).style.borderColor ='red';return false;
-    }
-    var price = document.getElementById('prc'+id).value;
-    var medical_id = document.getElementById('medical_id').value;
-    $.ajax({
-        url: "{% url 'add_to_cart' %}",
-        method: "GET",
-        data:{
-            qty:qty,
-            price:price,
-            medical_id:medical_id,
-            add_stock_id:id,
-            item_id:item_id
-            },
-            success: function(res){
-                $("#ng").html(res.ng);
-                $("#cart_ruselt").html(res.data);
-                if(res.ng != 0 ){
-        document.getElementById('place_btn').style.display='';
-    }
-            }
-
-    })
-}
-
 function search_customer(){
     var customer_mobile = document.getElementById('customer_mobile').value;
     var customer_name = document.getElementById('customer_name').value;
@@ -409,12 +431,32 @@ function search_customer(){
       
             },
             success: function(res){
-                console.log(res.data)
                 $("#customer_result").html(res.data);
                 //document.getElementById('#result').html(res.data);
             }
     })
  }
+
+
+ function doctor_search(){
+    var words = document.getElementById('doctor_name').value;
+    var degree = document.getElementById('degree').value;
+    var c_id = document.getElementById('c_id').value;
+    $.ajax({
+        url: "{% url 'doctor_filter' %}",
+        method: "GET",
+        data:{
+            words:words,      
+            degree:degree,      
+            c_id:c_id     
+            },
+            success: function(res){
+                $("#doctor_result").html(res.data);
+                //document.getElementById('#result').html(res.data);
+            }
+    })
+ }
+
 
  place_btn()
 
@@ -426,6 +468,50 @@ function place_btn(){
 
 }
 
+
+
+
+function add_to_cart(id){
+    var qty = document.getElementById('qty'+id).value;
+    if (qty == ""){ 
+        document.getElementById('qty'+id).style.borderColor ='red';return false;
+    }
+    var sell_price_per_unit = document.getElementById('prc'+id).value;
+    if (document.getElementById('medical_id') != null) {
+        var medical_id = document.getElementById('medical_id').value;
+}
+    if (customer_id = document.getElementById('c_id') != null) {
+        var customer_id = document.getElementById('c_id').value;
+}
+    if (document.getElementById('doctor_id') != null) {
+        var d_id = document.getElementById('doctor_id').value;
+}
+
+
+    //var medical_id = document.getElementById('medical_id').value;
+    //var customer_id = document.getElementById('c_id').value;
+    //var doctor_id = document.getElementById('doctor_id').value;
+    $.ajax({
+        url: "{% url 'add_to_cart' %}",
+        method: "GET",
+        data:{
+            qty:qty,
+            sell_price_per_unit:sell_price_per_unit,
+            medical_id:medical_id,
+            add_stock_id:id,
+            customer_id:customer_id,
+            d_id:d_id,
+            },
+            success: function(res){
+                $("#ng").html(res.ng);
+                $("#cart_ruselt").html(res.data);
+                if(res.ng != 0 ){
+        document.getElementById('place_btn').style.display='';
+    }
+            }
+
+    })
+}
 
 
 </script>

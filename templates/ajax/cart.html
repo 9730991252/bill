@@ -1,9 +1,9 @@
 {% load total_tag %}
 {% for cart in cart %}
 <div class="main">
-    <div>{{cart.item.item_name}}</div>
+    <div>{{cart.add_stock.item_name}}</div>
     <div>{{cart.qty}}</div>
-    <div>{{cart.price}}</div>
+    <div>{{cart.sell_price_per_unit}}</div>
     <div>{{cart.total_price}}</div>
     <div><form method="POST">{% csrf_token %}<input type="hidden" name="cart_id" value="{{cart.id}}" ><button name="Remove_cart_item" type="submit" class="btn btn-danger" style="line-height: 10px;">x</button></form></div>
 </div>

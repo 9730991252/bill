@@ -104,6 +104,7 @@ def add_stock(request):
                 Item(
                     medical_id=medical_id,
                     item_name=item_name,
+                    item_type=item_type,
                     company_name=company_name,
                 ).save()
                 Add_stock(
@@ -148,9 +149,11 @@ def sell_item(request):
         owner_mobile = request.session['owner_mobile']
         context={}
         c = ''
+        doctor = ''
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
+        
         if 'Remove_cart_item' in request.POST:
             cart_id = request.POST.get('cart_id')
             k = Cart.objects.get(id=cart_id)
@@ -168,14 +171,35 @@ def sell_item(request):
                 messages.warning(request,"Owner Mobile Allready Exists")
             else:
                 Customer(
+                    medical_id=m.id,
                     customer_name=customer_name,
                     mobile=mobile,
                     address=address,
                 ).save()
                 c = Customer.objects.get(mobile=mobile)
+        if 'Add_Doctor' in request.POST:
+            customer_id = request.POST.get('customer_id')
+            doctor_name = request.POST.get('doctor_name').lower()
+            degree = request.POST.get('degree').lower()
+            if Doctor.objects.filter(doctor_name=doctor_name,degree=degree).exists():
+                doctor = Doctor.objects.get(doctor_name=doctor_name,degree=degree)
+                c = Customer.objects.get(id=customer_id)
+            else:
+                Doctor(
+                   medical_id=m.id,
+                   doctor_name=doctor_name,
+                   degree=degree 
+                ).save()
+                doctor = Doctor.objects.get(doctor_name=doctor_name,degree=degree)
+                c = Customer.objects.get(id=customer_id)
         if 'Select_Customer' in request.POST:
             customer_id = request.POST.get('customer_id')
             c = Customer.objects.get(id=customer_id)
+        if 'Select_Doctor' in request.POST:
+            doctor_id = request.POST.get('doctor_id')
+            c_id = request.POST.get('c_id')
+            doctor = Doctor.objects.get(id=doctor_id)
+            c = Customer.objects.get(id=c_id)
         if 'Complete_Order' in request.POST:
             customer_id = request.POST.get('customer_id')
             t = Cart.objects.filter(medical_id=m.id).aggregate(Sum("total_price"))
@@ -211,11 +235,13 @@ def sell_item(request):
             Cart.objects.filter(medical_id=m.id).delete()
             return redirect('/')
         context={
-            'i':Add_stock.objects.filter(medical_id=m.id,stock_status=1)[0:5],
+            'i':Add_stock.objects.filter(medical_id=m.id,stock_status=1)[0:2],
             'm':m,
             'cart':Cart.objects.filter(medical_id=m.id),
             'c':c,
-            'filter_c':Customer.objects.all()
+            'filter_c':Customer.objects.all(),
+            'd':Doctor.objects.all(),
+            'doctor':doctor
             }
         return render(request,'owner/sell_item.html', context)
     else:

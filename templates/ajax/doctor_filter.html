@@ -1,0 +1,17 @@
+{% for d in d %}
+<div class="doctor_filter">
+        <div>
+            <div><h6>{{d.doctor_name}}</h6></div>
+        </div>
+        <div class="doctor_filter_footer">
+            <div><h6>{{d.degree}}</h6></div>
+            <div>
+            <form method="POST">
+                <input type="hidden" name="doctor_id"   value="{{d.id}}">
+                <input type="hidden" name="c_id"   value="{{c_id}}">
+                <button style="color: rgb(0, 198, 0);"  name="Select_Doctor" class="btn btn-transparent select_btn" ><i class="fa-solid fa-check "></i></button>
+            </form>    
+        </div>
+        </div>
+    </div>
+{% endfor %}

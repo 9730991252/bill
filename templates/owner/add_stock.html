@@ -102,7 +102,7 @@
     .item_filter_footer{
         align-items: center;
         display: grid;
-        grid-template-columns: 3fr 1fr;
+        grid-template-columns: 2fr 2fr 1fr;
         line-height: 5px;
     }
     .today_list{
@@ -144,25 +144,7 @@
 <div>
     <div class="item_box">
 <div id="search_ruselt">
-        <div style="display: none;">
-        {% for i in i %}
-        <div class="item_filter" >
-            <div >
-                <div><h6>{{i.item_name}}</h6></div>
-                <div class="item_filter_footer"  >
-                    <div><p>{{i.company_name}}</p></div>
 
-                    <div>
-                        <form method="POST">
-                            <input type="hidden" name="item_id"   value="{{i.id}}">
-                            <button class="btn btn-danger btn-sm mb-1" name="Select_Item" >select</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 </div>
     <form method="POST">{% csrf_token %}
       <input type="hidden" name="medical_id" id="medical_id" value="{{m.id}}">
@@ -175,8 +157,12 @@
         <div><input type="text" value="{{item.company_name}}" name="company_name" placeholder="Company Name" class="form-control" ></div>
         <br>
             <div>
-            <select class="form-select" name="item_type" aria-label="Default select example" >
+            <select  class="form-select" name="item_type" aria-label="Default select example" >
+                {% if item.item_type|length < 1 %}
                 <option selected>Select Type</option>
+                {% else %}
+                <option selected value="{{item.item_type}}" >{{item.item_type}}</option>
+                {% endif %}
                 <option value="Capsules">Capsules</option>
                 <option value="Drops">Drops</option>
                 <option value="Injections">Injections</option>

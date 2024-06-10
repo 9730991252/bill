@@ -12,26 +12,28 @@ from django.db.models import Q
 
 def add_to_cart(request):
     if request.method == 'GET':
-        qty = request.GET['qty']
-        price = request.GET['price']
+        print('qty')
         medical_id = request.GET['medical_id']
         add_stock_id = request.GET['add_stock_id']
-        item_id = request.GET['item_id']
+        customer_id = request.GET['customer_id']
+        #d_id = request.GET['d_id']
+        qty = request.GET['qty']
+        sell_price_per_unit = request.GET['sell_price_per_unit']
         check_qty=int(qty)
         n = Add_stock.objects.get(id=add_stock_id)
         stock_qty = n.stock_qty
         stock_qty=int(stock_qty)
         stock_status = n.stock_status
         stock_status=int(stock_status)
-        add_qty = n.add_qty
-        add_qty=int(add_qty)
         if check_qty <= stock_qty and stock_status == 1:
             Cart(
-                qty=qty,
-                price=price,
                 medical_id=medical_id,
                 add_stock_id=add_stock_id,
-                item_id=item_id,
+                customer_id=customer_id,
+                #doctor_id=d_id,
+                qty=qty,
+                sell_price_per_unit=sell_price_per_unit,
+
             ).save()
             s = Add_stock.objects.get(id=add_stock_id)
             s.stock_qty -= check_qty
@@ -121,3 +123,22 @@ def add_stock_item_filter(request):
         print(i)
     t = render_to_string('ajax/add_stock_item_filter.html', context)
     return JsonResponse({'data': t})
+
+def doctor_filter(request):
+    if request.method == 'GET':
+        words = request.GET['words']
+        degree = request.GET['degree']
+        c_id = request.GET['c_id']
+        d = ''
+        if 2 < len(words) :
+            d=Doctor.objects.filter(Q(doctor_name__icontains=words) )
+        if 2 < len(degree) :
+            d=Doctor.objects.filter(Q(degree__icontains=degree) )
+        context={
+                'd':d,
+                'c_id':c_id
+            }
+        t = render_to_string('ajax/doctor_filter.html', context)
+        return JsonResponse({'data': t})
+
+ 
