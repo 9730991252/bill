@@ -6,6 +6,7 @@ from django.http import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages 
 from django.db.models import Sum
+from datetime import date
 # Create your views here.
 
 def owner_dashboard(request):
@@ -43,19 +44,18 @@ def item_name(request):
 
 @csrf_exempt
 def add_stock(request):
-    
     if request.session.has_key('owner_mobile'):
-        
         owner_mobile = request.session['owner_mobile']
         context={}
         item = ''
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
+            today = date.today()
+            today_list = Add_stock.objects.filter(medical_id=m.id,added_date__gte=today,added_date__lte=today)
         if 'Select_Item' in request.POST:
             item_id = request.POST.get('item_id')
             item = Item.objects.get(id=item_id)
-            
         if 'Add_Stock_Item'in request.POST:
             medical_id = request.POST.get('medical_id')
             item_name = request.POST.get('item_name').lower()
@@ -132,7 +132,8 @@ def add_stock(request):
         context={
             #'i':Item.objects.filter(medical_id=m.id)[0:10],
             'm':m,
-            'item':item
+            'item':item,
+            'today_list':today_list
         }
         return render(request,'owner/add_stock.html', context)
     else:

@@ -105,10 +105,41 @@
         grid-template-columns: 3fr 1fr;
         line-height: 5px;
     }
+    .today_list{
+        overflow: hidden;
+        width: 300px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
     </style>
 <h6>Welcome.{{m.medical_name}}</h6>
 <input type="hidden" id="medical_id" value="{{m.id}}">
 <a class="btn btn-danger" href="/owner/owner_dashboard/">back</a>
+
+{% if today_list|length < 1 %}
+{% else %}
+<div><h6 class="text-center" >Todays Add Item list</h6></div>
+{% for t in today_list %}
+<div class="text-center today_list">
+    <div>
+        <div>
+            <h6>{{t.item_name}}</h6>
+        </div>
+        <div style="display: flex; justify-content: space-between;padding: 10px;">
+            <h6>Total Qty {{t.total_qty}}</h6>
+            <h6>Total Price {{t.total_purchase_price}}</h6>
+        </div>
+        </div>
+</div>
+{% endfor %}
+
+{% endif %}
+
+
+
 
 <div>
     <div class="item_box">
