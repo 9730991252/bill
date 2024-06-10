@@ -235,7 +235,7 @@ def sell_item(request):
             Cart.objects.filter(medical_id=m.id).delete()
             return redirect('/')
         context={
-            'i':Add_stock.objects.filter(medical_id=m.id,stock_status=1)[0:2],
+            'i':Add_stock.objects.filter(medical_id=m.id,stock_status=1)[0:25],
             'm':m,
             'cart':Cart.objects.filter(medical_id=m.id),
             'c':c,
