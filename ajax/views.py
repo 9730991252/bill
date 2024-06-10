@@ -107,3 +107,17 @@ def sell_item_filter(request):
         print(i)
     t = render_to_string('ajax/sell_item_filter.html', context)
     return JsonResponse({'data': t})
+
+
+
+def add_stock_item_filter(request):
+    if request.method == 'GET':
+        words = request.GET['words']
+        if 2 < len(words):
+            i=Item.objects.filter(item_name__icontains=words).order_by('-item_name')
+        context={
+                'i':i
+                }
+        print(i)
+    t = render_to_string('ajax/add_stock_item_filter.html', context)
+    return JsonResponse({'data': t})

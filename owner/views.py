@@ -9,6 +9,7 @@ from django.db.models import Sum
 # Create your views here.
 
 def owner_dashboard(request):
+
     if request.session.has_key('owner_mobile'):
         owner_mobile = request.session['owner_mobile']
         o = Order_Master.objects.all()
@@ -42,32 +43,96 @@ def item_name(request):
 
 @csrf_exempt
 def add_stock(request):
+    
     if request.session.has_key('owner_mobile'):
+        
         owner_mobile = request.session['owner_mobile']
         context={}
+        item = ''
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
-        if 'Add_Stock_Item'in request.POST:
+        if 'Select_Item' in request.POST:
             item_id = request.POST.get('item_id')
-            print(item_id)
-            price = request.POST.get('price')
-            add_qty = request.POST.get('add_qty')
-            invice_number = request.POST.get('invice_number')
-            expiry_date = request.POST.get('expiry_date')
-            Add_stock(
-                medical_id=m.id,
-                item_id = item_id,
-                price = price,
-                add_qty = add_qty,
-                stock_qty = add_qty,
-                invice_number = invice_number,
-                expiry_date = expiry_date,
-            ).save()
+            item = Item.objects.get(id=item_id)
+            
+        if 'Add_Stock_Item'in request.POST:
+            medical_id = request.POST.get('medical_id')
+            item_name = request.POST.get('item_name').lower()
+            company_name = request.POST.get('company_name')
+            item_type = request.POST.get('item_type')
+            purchase_price = request.POST.get('purchase_price')
+            gst = request.POST.get('gst')
+            qty = request.POST.get('qty')
+            qty_stripe = request.POST.get('qty_stripe')
+            temp_qty = request.POST.get('temp_qty')
+            total_purchase_price= request.POST.get('total_purchase_price')
+            disc_qty= request.POST.get('disc_qty')
+            disc_qty_stripe= request.POST.get('disc_qty_stripe')
+            disc_temp_qty= request.POST.get('disc_temp_qty')
+            total_qty = int(temp_qty) + int(disc_temp_qty)
+            invice_number = request.POST.get('invice_number') 
+            expiry_date = request.POST.get('expiry_date') 
+            if expiry_date == '':
+                expiry_date = None
+            batch_number = request.POST.get('batch_number') 
+            sell_price_per_unit = request.POST.get('sell_price_per_unit') 
+            if Item.objects.filter(item_name=item_name).exists():
+                Add_stock(
+                    medical_id=medical_id,
+                    item_name=item_name,
+                    company_name=company_name,
+                    item_type=item_type,
+                    purchase_price=purchase_price,
+                    gst=gst,
+                    qty=qty,
+                    qty_stripe=qty_stripe,
+                    temp_qty=temp_qty,
+                    total_purchase_price=total_purchase_price,
+                    disc_qty=disc_qty,
+                    disc_qty_stripe=disc_qty_stripe,
+                    disc_temp_qty=disc_temp_qty,
+                    total_qty=total_qty,
+                    stock_qty=total_qty,
+                    invice_number=invice_number,
+                    expiry_date=expiry_date,
+                    batch_number=batch_number,
+                    sell_price_per_unit=sell_price_per_unit,
+                    ).save()
+                return redirect('/owner/add_stock/')
+            else:
+                Item(
+                    medical_id=medical_id,
+                    item_name=item_name,
+                    company_name=company_name,
+                ).save()
+                Add_stock(
+                    medical_id=medical_id,
+                    item_name=item_name,
+                    company_name=company_name,
+                    item_type=item_type,
+                    purchase_price=purchase_price,
+                    gst=gst,
+                    qty=qty,
+                    qty_stripe=qty_stripe,
+                    temp_qty=temp_qty,
+                    total_purchase_price=total_purchase_price,
+                    disc_qty=disc_qty,
+                    disc_qty_stripe=disc_qty_stripe,
+                    disc_temp_qty=disc_temp_qty,
+                    total_qty=total_qty,
+                    stock_qty=total_qty,
+                    invice_number=invice_number,
+                    expiry_date=expiry_date,
+                    batch_number=batch_number,
+                    sell_price_per_unit=sell_price_per_unit,
+                    ).save()
+       
             return redirect('/owner/add_stock/')
         context={
-            'i':Item.objects.filter(medical_id=m.id)[0:1],
-            'm':m
+            #'i':Item.objects.filter(medical_id=m.id)[0:10],
+            'm':m,
+            'item':item
         }
         return render(request,'owner/add_stock.html', context)
     else:

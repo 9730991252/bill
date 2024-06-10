@@ -1,0 +1,18 @@
+
+{% for i in i %}
+        <div class="item_filter" >
+            <div >
+                <div><h6>{{i.item_name}}</h6></div>
+                <div class="item_filter_footer"  >
+                    <div><p>{{i.company_name}}</p></div>
+
+                    <div>
+                        <form method="POST">
+                            <input type="hidden" name="item_id"   value="{{i.id}}">
+                            <button style="color: rgb(0, 198, 0);"  name="Select_Item" class="btn btn-transparent select_btn" ><i class="fa-solid fa-check "></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}

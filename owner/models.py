@@ -7,6 +7,7 @@ class Item(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
     item_name=models.CharField(max_length=500)
     date=models.DateField(auto_now_add=True,null=True)
+    company_name = models.CharField(max_length=100,null=True)
 
 
 INSTOCK_OUTSTOCK_CHOICE=(
@@ -16,12 +17,24 @@ INSTOCK_OUTSTOCK_CHOICE=(
 )
 class Add_stock(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
-    item = models.ForeignKey(Item,on_delete=models.PROTECT,null=True)
-    price = models.IntegerField()
-    add_qty = models.IntegerField()
+    item_name = models.CharField(max_length=100,null=True)
+    company_name = models.CharField(max_length=100,null=True)
+    item_type = models.CharField(max_length=100,null=True)
+    purchase_price = models.FloatField(null=True)
+    gst = models.IntegerField(null=True)
+    qty = models.IntegerField(null=True)
+    qty_stripe = models.IntegerField(null=True)
+    temp_qty = models.IntegerField(null=True)
+    total_purchase_price = models.FloatField(null=True)
+    disc_qty = models.IntegerField(null=True)
+    disc_qty_stripe = models.IntegerField(null=True)
+    disc_temp_qty = models.IntegerField(null=True)
+    total_qty = models.IntegerField(null=True)
     stock_qty = models.IntegerField()
-    invice_number = models.IntegerField(null=True)
-    expiry_date = models.DateField(max_length=100, null=True)
+    invice_number = models.CharField(max_length=100,null=True)
+    expiry_date = models.DateField(max_length=100, null=True, blank=True,default=None,)
+    batch_number = models.CharField(max_length=100,null=True)
+    sell_price_per_unit = models.FloatField(null=True)
     stock_status = models.IntegerField(choices=INSTOCK_OUTSTOCK_CHOICE,default=1)
     added_date = models.DateField(auto_now_add=True)
 
