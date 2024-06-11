@@ -189,7 +189,7 @@
         </div>
         </div>
         <div class="items">
-            <div> <p>Purchase Price</p> <input  name="purchase_price" placeholder="Price" id="prc" oninput="calculte_price(),check_price()" class="price form-control" type="number" required></div>
+            <div> <p>Purchase Price</p> <input step="any"  name="purchase_price" placeholder="Price" id="prc" oninput="calculte_price(),check_price()" class="price form-control" type="number"  required></div>
             <div> <p>GST </p> <select  class="form-select" name="gst" aria-label="Default select example" id="gst" oninput="calculte_price()">
                 <option selected value="0">Select %</option>
                 <option value="5">5 %</option>
@@ -255,13 +255,13 @@
 
         <div class="item_footer">
             <div> <p>Invice Number</p> <input name="invice_number" class="invice_number form-control" placeholder="Invice Number" type="text"></div>
-            <div> <p>Expiry Date</p> <input name="expiry_date"  class="date form-control" type="date"></div>
+            <div> <p>Expiry Date</p> <input name="expiry_date"  class="date form-control" type="month"></div>
         </div>
 
 
         <div class="item_footer">
             <div> <p>Batch <br> Number</p> <input name="batch_number" class="qty form-control" placeholder="Batch Number" type="text"></div>
-            <div> <p>Sell Price <br> Per Unit </p> <input name="sell_price_per_unit" placeholder="Price"  class="price form-control" type="number" required></div>
+            <div> <p>Sell Price <br> Per Unit </p> <input step="any" name="sell_price_per_unit" placeholder="Price"  class="price form-control" type="number" required></div>
         </div>
         <div class="add_btn">
             
