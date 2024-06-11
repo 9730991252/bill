@@ -127,8 +127,8 @@ def sell_item_filter(request):
     if request.method == 'GET':
         words = request.GET['words']
         medical_id = request.GET['medical_id']
-        if 2 < len(words):
-            i=Add_stock.objects.filter(medical_id=medical_id,stock_status=1,item__item_name__icontains=words)
+        if 1 < len(words):
+            i=Add_stock.objects.filter(medical_id=medical_id,stock_status=1,item_name__icontains=words)[0:10]
         context={
                 'i':i
                 }

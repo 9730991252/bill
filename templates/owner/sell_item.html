@@ -8,8 +8,8 @@
         box-sizing: border-box;
     }
     .footer {
-        position: fixed;
-    bottom: 0;
+    position: fixed;
+    top: 0;
     left: 0;
     right: 0;
     width: 100%;
@@ -205,7 +205,7 @@ padding: 10px;
     </style>
 <!-- Button trigger modal -->
 
-<h6>Welcome.{{m.medical_name}}</h6>
+<h6 class="mt-5">Welcome.{{m.medical_name}}</h6>
 <input type="hidden" id="medical_id" value="{{m.id}}">
 <a class="btn btn-danger" href="/owner/owner_dashboard/">back</a>
 

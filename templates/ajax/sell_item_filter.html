@@ -1,18 +1,21 @@
 {% for i in i %}
 <div class="item_box">
-    <div class="item_image"><img src="{{i.item.image.url}}" alt=""></div>
     <div class="item_name">
-        <div class="name">{{i.item.item_name}}</div>
+        <div class="name">{{i.item_name}}</div>
     </div>
-
+    <div class="stock ci">
+        <h6>{{i.company_name}}</h6>
+        <h6>{{i.item_type}}</h6>
+    </div>
     <div class="stock">
         Stock<strong id="stock_qty{{i.id}}" >{{i.stock_qty}}</strong>
+        <div id="set_stock{{i.id}}" ></div>
         <h6>expiry date {{i.expiry_date}}</h6>
     </div>
     <div></div>
 
     <div class="item_footer">
-        <div class="price"> <p>Price</p> <input id="prc{{i.id}}" oninput="calculte_price('{{i.id}}')"  type="number" value="{{i.price}}"></div>
+        <div class="price"> <p>Price</p> <input id="prc{{i.id}}" oninput="calculte_price('{{i.id}}')"  type="number" value="{{i.sell_price_per_unit}}"></div>
         <div class="minus"><button type="button" onclick="minus('{{i.id}}')" class="btn btn-success px-3">-</button></div>
         <div class="qty"> <p>Qty</p> <input type="number" id="qty{{i.id}}" oninput="set_stock('{{i.id}}')" placeholder=" Qty "></input></div>
         <div class="plus"><button type="button" onclick="plus('{{i.id}}')"  class="btn btn-success px-3" >+</button></div>
@@ -22,7 +25,7 @@
 
             <strong id="set_success{{i.id}}"></strong>
         </div>
-        <div class="confirm"><button onclick="add_to_cart('{{i.id}}','{{i.item.id}}')" type="button" class="btn btn-danger mx-auto added_success">Confirm </button></div>
+        <div class="confirm"><button onclick="add_to_cart('{{i.id}}')" type="button" class="btn btn-danger mx-auto added_success">Confirm </button></div>
 
 </div>
 {% endfor %}
