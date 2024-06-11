@@ -56,6 +56,10 @@ def add_stock(request):
         if 'Select_Item' in request.POST:
             item_id = request.POST.get('item_id')
             item = Item.objects.get(id=item_id)
+        if 'Add_Stock_Delete'in request.POST:
+            stock_delete_id = request.POST.get('stock_delete_id')
+            Add_stock.objects.get(id=stock_delete_id).delete()
+            return redirect('/owner/add_stock/')
         if 'Add_Stock_Item'in request.POST:
             medical_id = request.POST.get('medical_id')
             item_name = request.POST.get('item_name').lower()

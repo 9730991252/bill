@@ -132,6 +132,22 @@
             <h6>Total Qty {{t.total_qty}}</h6>
             <h6>Total Price {{t.total_purchase_price}}</h6>
         </div>
+        <div>
+            <div></div>
+            {% if t.total_qty == t.stock_qty %}
+            <div style="margin-left: auto; margin-right: 10px; width: 100px; margin-bottom: 10px;">
+                <form method="POST">
+                    <input type="hidden" name="stock_delete_id" value="{{t.id}}">
+                <button name="Add_Stock_Delete" class="btn btn-danger form-control">Delete</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="text-bg-danger">यातील काही नग सेल झालेने DELETE होण्यास असमर्थ </div>
+            {% endif %}
+            
+
+        </div>
+
         </div>
 </div>
 {% endfor %}
