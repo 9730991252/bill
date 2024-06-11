@@ -264,7 +264,10 @@ padding: 10px;
             <div><input type="text" oninput="doctor_search()" id="doctor_name" name="doctor_name" value="{{doctor.doctor_name}}" placeholder="Doctor Name" required></div>
             <div><input type="text" oninput="doctor_search()" id="degree" name="degree" value="{{doctor.degree}}" placeholder="Degree" required></div>
         </div>
+        {% if doctor == '' %}
             <button class="btn btn-success mt-2" type="submit" name="Add_Doctor" >Add Doctor</button>
+            {% else %}
+            {% endif %}
     </form>
     </div>
     {% endif %}
@@ -522,8 +525,20 @@ function add_to_cart(id){
     })
 }
 
-function remove_cart(id,qty){
-    alert('hi')
+function remove_cart(id){
+    var medical_id = document.getElementById('medical_id').value;
+    $.ajax({
+        url:"{% url 'remove_cart' %}",
+        method:"GET",
+        data:{
+            id:id,
+            medical_id:medical_id
+        },
+        success: function(res){
+            $("#cart_ruselt").html(res.data);
+        }
+    })
+
 }
 
 </script>

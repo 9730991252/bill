@@ -79,6 +79,24 @@ def new_item_filter(request):
     return JsonResponse({'data': t})
 
 
+def remove_cart(request):
+    if request.method == 'GET':
+        cart_id = request.GET['id']
+        medical_id = request.GET['medical_id']
+        k = Cart.objects.get(id=cart_id)
+        k.qty
+        s = Add_stock.objects.get(id=k.add_stock_id)
+        s.stock_qty += k.qty
+        s.save()
+        Cart.objects.get(id=cart_id).delete()
+        cart = Cart.objects.filter(medical_id=medical_id)
+    context={
+            'cart':cart
+        }
+    t = render_to_string('ajax/cart.html', context)
+    return JsonResponse({'data': t})
+
+
 
 
 
