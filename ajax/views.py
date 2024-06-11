@@ -12,7 +12,7 @@ from django.db.models import Q
 
 def add_to_cart(request):
     if request.method == 'GET':
-        print('qty')
+        l=[]
         medical_id = request.GET['medical_id']
         add_stock_id = request.GET['add_stock_id']
         customer_id = request.GET['customer_id']
@@ -46,11 +46,19 @@ def add_to_cart(request):
         cart = Cart.objects.filter(medical_id=medical_id)
         qt=list(cart)
         ng=len(qt)
+        if cart:
+            for c in cart:
+                a_id=c.add_stock_id
+                a=Add_stock.objects.values().filter(id=a_id)
+                a=list(a)
+                l.extend(a)
+
+        
         context={
                 'cart':cart
         }
         t = render_to_string('ajax/cart.html', context)
-    return JsonResponse({'data': t,'ng':ng})
+    return JsonResponse({'data': t,'ng':ng,'add_stock':l})
 
 
 

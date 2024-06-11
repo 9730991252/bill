@@ -227,7 +227,7 @@ padding: 10px;
         <div>{{cart.qty}}</div>
         <div>{{cart.sell_price_per_unit}}</div>
         <div>{{cart.total_price}}</div>
-        <div><form method="POST">{% csrf_token %}<input type="hidden" name="cart_id" value="{{cart.id}}" ><button name="Remove_cart_item" type="submit" class="btn btn-danger" style="line-height: 10px;">x</button></form></div>
+        <div><button  class="btn btn-danger" style="line-height: 10px;" onclick="remove_cart('{{cart.id}}')">x</button></div>
     </div>
     {% endfor %}
     <div class="total_price"><strong>Total Price Rs.{% total_price_owner 1 %}</strong></div>
@@ -302,6 +302,7 @@ padding: 10px;
         </div>
         <div class="stock">
             Stock<strong id="stock_qty{{i.id}}" >{{i.stock_qty}}</strong>
+            <div id="set_stock{{i.id}}" ></div>
             <h6>expiry date {{i.expiry_date}}</h6>
         </div>
         <div></div>
@@ -503,16 +504,27 @@ function add_to_cart(id){
             d_id:d_id,
             },
             success: function(res){
+        
                 $("#ng").html(res.ng);
                 $("#cart_ruselt").html(res.data);
                 if(res.ng != 0 ){
-        document.getElementById('place_btn').style.display='';
-    }
+                document.getElementById('place_btn').style.display='';
+                }
+                for (var key=0; key<res.add_stock.length; key++){
+                    i=(res.add_stock[key].id)
+                    st=(res.add_stock[key].stock_qty)
+                    document.getElementById('set_stock'+id).innerHTML=`New Stock ${st}`;
+
+                   
+                }
             }
 
     })
 }
 
+function remove_cart(id,qty){
+    alert('hi')
+}
 
 </script>
 {% endblock content %}
