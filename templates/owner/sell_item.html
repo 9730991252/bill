@@ -379,6 +379,7 @@ padding: 10px;
         document.getElementById('qty'+id).value=s; 
     }
     p=qty*price
+    p=Math.ceil(p)
     document.getElementById('set_prc'+id).innerHTML=p;
     }
  function minus(id){
@@ -389,6 +390,7 @@ padding: 10px;
         document.getElementById('qty'+id).value=qty;     
     }
     p=qty*price
+    p=Math.ceil(p)
     document.getElementById('set_prc'+id).innerHTML=p;
     }
 
@@ -410,6 +412,7 @@ function set_stock(id){
 document.getElementById('qty'+id).value =""; 
 }
     p=qty*price
+    p=Math.ceil(p)
     document.getElementById('set_prc'+id).innerHTML=p;
 
 }

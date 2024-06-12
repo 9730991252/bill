@@ -77,7 +77,11 @@ def add_stock(request):
             total_qty = int(temp_qty) + int(disc_temp_qty)
             invice_number = request.POST.get('invice_number') 
             expiry_date = request.POST.get('expiry_date') 
-            if expiry_date == '':
+            n=expiry_date
+            d='01'
+            expiry_date=f"{n}-{d}"
+            print(expiry_date)
+            if expiry_date == '-01':
                 expiry_date = None
             batch_number = request.POST.get('batch_number') 
             sell_price_per_unit = request.POST.get('sell_price_per_unit') 
