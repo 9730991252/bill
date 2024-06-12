@@ -157,16 +157,6 @@ def sell_item(request):
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
-        
-        if 'Remove_cart_item' in request.POST:
-            cart_id = request.POST.get('cart_id')
-            k = Cart.objects.get(id=cart_id)
-            k.qty
-            s = Add_stock.objects.get(id=k.add_stock_id)
-            s.stock_qty += k.qty
-            s.save()
-            Cart.objects.get(id=cart_id).delete()
-            return redirect('/owner/sell_item/')
         if 'Add_Customer' in request.POST:
             customer_name = request.POST.get('customer_name')
             mobile = request.POST.get('mobile')

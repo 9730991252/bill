@@ -1,6 +1,7 @@
 from django.db import models
 from sunil.models import *
 from PIL import Image
+from month.models import MonthField
 # Create your models here.
 
 class Item(models.Model):
@@ -33,7 +34,7 @@ class Add_stock(models.Model):
     total_qty = models.IntegerField(null=True)
     stock_qty = models.IntegerField()
     invice_number = models.CharField(max_length=100,null=True)
-    expiry_date = models.DateField(max_length=100, null=True, blank=True,default=None,)
+    expiry_date = MonthField(max_length=100, null=True, blank=True,default=None,)
     batch_number = models.CharField(max_length=100,null=True)
     sell_price_per_unit = models.FloatField(null=True)
     stock_status = models.IntegerField(choices=INSTOCK_OUTSTOCK_CHOICE,default=1)

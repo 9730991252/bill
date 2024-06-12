@@ -2,7 +2,8 @@
 142.93.213.54
 ********** restart ******
 
-source venv/bin/activate
+
+sudo systemctl daemon-reload
 
 sudo systemctl restart okmybill.com.gunicorn
 
@@ -42,7 +43,7 @@ source venv/bin/activate
 pip install django
 
 pip install pillow
-
+pip install django-monthfield
 
 ******** Install Gunicorn ******
  
