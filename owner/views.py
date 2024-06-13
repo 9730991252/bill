@@ -76,6 +76,7 @@ def add_stock(request):
             disc_temp_qty= request.POST.get('disc_temp_qty')
             total_qty = int(temp_qty) + int(disc_temp_qty)
             invice_number = request.POST.get('invice_number') 
+            parti_name = request.POST.get('parti_name') 
             expiry_date = request.POST.get('expiry_date') 
             n=expiry_date
             d='01'
@@ -103,6 +104,7 @@ def add_stock(request):
                     total_qty=total_qty,
                     stock_qty=total_qty,
                     invice_number=invice_number,
+                    parti_name=parti_name,
                     expiry_date=expiry_date,
                     batch_number=batch_number,
                     sell_price_per_unit=sell_price_per_unit,
@@ -132,6 +134,7 @@ def add_stock(request):
                     total_qty=total_qty,
                     stock_qty=total_qty,
                     invice_number=invice_number,
+                    parti_name=parti_name,
                     expiry_date=expiry_date,
                     batch_number=batch_number,
                     sell_price_per_unit=sell_price_per_unit,

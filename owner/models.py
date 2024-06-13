@@ -33,6 +33,7 @@ class Add_stock(models.Model):
     total_qty = models.IntegerField(null=True)
     stock_qty = models.IntegerField()
     invice_number = models.CharField(max_length=100,null=True)
+    parti_name = models.CharField(max_length=100,null=True)
     expiry_date = models.DateField(max_length=100, null=True, blank=True,default=None,)
     batch_number = models.CharField(max_length=100,null=True)
     sell_price_per_unit = models.FloatField(null=True)

@@ -48,6 +48,20 @@
         background-color: rgb(147, 247, 140);
         border-radius: 6.5px;
     }
+    .invice_box{
+        margin: 20px;
+        margin-top: 1px;
+        font-weight: 500;
+        text-align: center;
+        background-color: rgb(147, 247, 140);
+        border-radius: 6.5px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        input{
+            width: 100%;
+        }
+    }
     .items_qty_footer{
         display: flex;
         justify-content: space-between;
@@ -252,15 +266,23 @@
         </div>
 
 
-
-        <div class="item_footer">
-            <div> <p>Invice Number</p> <input name="invice_number" oninput="invice_filter()" id="invice_words" class="invice_number form-control" placeholder="Invice Number" type="text"> <div id="invice_result"></div></div>
+                        
+            <div class="item_footer">
             <div> <p>Expiry Date</p> <input name="expiry_date"  class="date form-control" type="month"></div>
+
+            <div> <p>Batch <br> Number</p> <input name="batch_number" class="qty form-control" placeholder="Batch Number" type="text"></div>
         </div>
 
 
+        <div class="invice_box">
+            <div> <p>Invice Number</p> <input name="invice_number" oninput="invice_filter()" id="invice_words" class="invice_number form-control" placeholder="Invice Number" type="text"> 
+                </div>
+                <div> <p>Part Name</p> <input name="parti_name" id="parti_name"  class="parti_name form-control" placeholder="Part Name" type="text"></div>
+                </div>
+            <div id="invice_result" class="text-center" ></div>
+
+
         <div class="item_footer">
-            <div> <p>Batch <br> Number</p> <input name="batch_number" class="qty form-control" placeholder="Batch Number" type="text"></div>
             <div> <p>Sell Price <br> Per Unit </p> <input step="any" name="sell_price_per_unit" placeholder="Price"  class="price form-control" type="number" required></div>
         </div>
         <div class="add_btn">
@@ -365,13 +387,15 @@ let medical_id = document.getElementById('medical_id').value;
         success: function(data){
             for(key=0; key<data.inv.length; key++){
                 invice_number=(data.inv[key].invice_number)
-                document.getElementById('invice_result').innerHTML=`<div onclick='select_invice("${invice_number}")'>${invice_number}</div>`;
+                parti_name=(data.inv[key].parti_name)
+                document.getElementById('invice_result').innerHTML=`<div onclick='select_invice("${invice_number}","${parti_name}")'>${invice_number}<br>${parti_name}</div>`;
             }
         }
     })
 }
-function select_invice(numb){
+function select_invice(numb,parti_name){
     document.getElementById('invice_words').value=numb;
+    document.getElementById('parti_name').value=parti_name;
     document.getElementById('invice_result').innerHTML=''
 }
 </script>
