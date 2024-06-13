@@ -36,6 +36,7 @@ class Add_stock(models.Model):
     parti_name = models.CharField(max_length=100,null=True)
     expiry_date = models.DateField(max_length=100, null=True, blank=True,default=None,)
     batch_number = models.CharField(max_length=100,null=True)
+    disc_price = models.FloatField(null=True)
     sell_price_per_unit = models.FloatField(null=True)
     stock_status = models.IntegerField(choices=INSTOCK_OUTSTOCK_CHOICE,default=1)
     added_date = models.DateField(auto_now_add=True)

@@ -91,15 +91,10 @@
     }
 
     .tpp{
-        margin: auto;
-        display: flex;
         background-color: rgb(255, 222, 161);
-        width: fit-content;
-        padding: 5px;
         border-radius: 20px;
         margin-bottom: 10px;
-
-
+        padding: 5px;
     }
     .total_qty{
         display: flex;
@@ -127,6 +122,10 @@
         margin: auto;
         margin-top: 10px;
         margin-bottom: 20px;
+    }
+    .gst_ttp{
+        display: grid;
+        grid-template-columns: 2fr 3fr;
     }
     </style>
 <h6>Welcome.{{m.medical_name}}</h6>
@@ -202,16 +201,6 @@
             </select>
         </div>
         </div>
-        <div class="items">
-            <div> <p>Purchase Price</p> <input step="any"  name="purchase_price" placeholder="Price" id="prc" oninput="calculte_price(),check_price()" class="price form-control" type="number"  required></div>
-            <div> <p>GST </p> <select  class="form-select" name="gst" aria-label="Default select example" id="gst" oninput="calculte_price()">
-                <option selected value="0">Select %</option>
-                <option value="5">5 %</option>
-                <option value="10">10 %</option>
-                <option value="12">12 %</option>
-                <option value="18">18 %</option>
-            </select></div>
-        </div>
         <div class="items_qty">
             <div class="items_qty_footer">
                 <div><p class="qty_p">Qty</p><input name="qty" class="qty for_qty sub form-control" id="qty" oninput="calculte_price(),calculte_qty(),check_qty()" placeholder="Qty" type="number" required></div>
@@ -236,11 +225,35 @@
                 <div><input type="hidden" name="temp_qty" id="set_qty"></input><strong id="set_qty_strong"></strong></div>
                 </div>
         </div>
-        <div class="tpp">
-            <div><h6>Taxable Purchase Rs.</h6></div>
-            <div><strong  id="set_prc_strong" ></strong><input type="hidden" name="total_purchase_price" id="set_prc"></div>
+
+        <div class="items">
+            <div> <p>Purchase Price</p> <input step="any"  name="purchase_price" placeholder="Price" id="prc" oninput="calculte_price(),check_price(),check_disc_rs()" class="price form-control" type="number"  required></div>
+            <div> <p>Disc Rs</p> <input step="any"  name="purchase_price" placeholder="disc Rs" id="disc_rs" oninput="calculte_price(),check_disc_rs()"  class="form-control price" type="number"  required></div>
         </div>
 
+        <div class="gst_ttp">
+            <div>
+            <div class="items">
+                <div> <p>GST </p> <select  class="form-select" name="gst" aria-label="Default select example" id="gst" oninput="calculte_price()">
+                    <option selected value="0">Select %</option>
+                    <option value="5">5 %</option>
+                    <option value="10">10 %</option>
+                    <option value="12">12 %</option>
+                    <option value="18">18 %</option>
+                </select>
+            </div>
+            </div>
+        </div>
+        <div>
+            <div class="tpp">
+                <div><h6>Taxable Purchase Rs.</h6></div>
+                <div class="text-center">
+                    <strong  id="set_prc_strong" ></strong>
+                    <input type="hidden" name="total_purchase_price" id="set_prc">
+                </div>
+            </div>
+        </div>
+    </div>
         <div class="items_qty">
             <div class="items_qty_footer">
                 <div><p class="qty_p">Discount Qty</p><input value="0"  name="disc_qty" class="qty for_qty sub form-control" id="d_qty" placeholder="Qty" type="number" oninput="calculte_discount_qty(),check_dic_qty()"></div>
@@ -300,14 +313,27 @@ function calculte_price(){
     var price = document.getElementById('prc').value;
     var qty = document.getElementById('qty').value;
     var gst = document.getElementById('gst').value;
+    var disc_rs = document.getElementById('disc_rs').value;
     p=qty*price
-    var c = (parseFloat(p)*parseFloat(gst))/100;
-    p+=c
-    p = Math.ceil(p);
-    document.getElementById('set_prc_strong').innerHTML=p;
-    document.getElementById('set_prc').value=p;
+    s = p-disc_rs
+    var c = (parseFloat(s)*parseFloat(gst))/100;
+    s+=c
+    s = Math.ceil(s);
+    document.getElementById('set_prc_strong').innerHTML=s;
+    document.getElementById('set_prc').value=s;
 }
-
+function check_disc_rs(){
+    var disc_rs = document.getElementById('disc_rs').value;
+    var total_price = document.getElementById('set_prc').value;
+    //console.log(total_price)
+    if (disc_rs > total_price){
+        document.getElementById('disc_rs').value = 0;
+    }
+    if (disc_rs < 0){
+        document.getElementById('disc_rs').value=0;
+    }
+    calculte_price()
+}
 function check_price(){
     var price = document.getElementById('prc').value;
     if (price < 0){
@@ -337,7 +363,6 @@ function calculte_qty(){
     var stripe = document.getElementById('stripe').value;
     q=qty*stripe
     q = Math.ceil(q);
-    console.log(q)
     document.getElementById('set_qty').value=q;
     document.getElementById('set_qty_strong').innerHTML=q;
     
@@ -366,7 +391,6 @@ function filter_item(){
             words:words
             },
             success: function(res){
-                console.log(res.data)
                 $("#search_ruselt").html(res.data);
                 //document.getElementById('#result').html(res.data);
             }
