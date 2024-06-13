@@ -254,7 +254,7 @@
 
 
         <div class="item_footer">
-            <div> <p>Invice Number</p> <input name="invice_number" class="invice_number form-control" placeholder="Invice Number" type="text"></div>
+            <div> <p>Invice Number</p> <input name="invice_number" oninput="invice_filter()" id="invice_words" class="invice_number form-control" placeholder="Invice Number" type="text"> <div id="invice_result"></div></div>
             <div> <p>Expiry Date</p> <input name="expiry_date"  class="date form-control" type="month"></div>
         </div>
 
@@ -349,6 +349,30 @@ function filter_item(){
                 //document.getElementById('#result').html(res.data);
             }
     })
+}
+
+
+function invice_filter(){
+let invice_words=document.getElementById('invice_words').value;
+let medical_id = document.getElementById('medical_id').value;
+    $.ajax({
+        url:"{% url 'invice_filter' %}",
+        method: "GET",
+        data:{
+            invice_words:invice_words,
+            medical_id:medical_id
+        },
+        success: function(data){
+            for(key=0; key<data.inv.length; key++){
+                invice_number=(data.inv[key].invice_number)
+                document.getElementById('invice_result').innerHTML=`<div onclick='select_invice("${invice_number}")'>${invice_number}</div>`;
+            }
+        }
+    })
+}
+function select_invice(numb){
+    document.getElementById('invice_words').value=numb;
+    document.getElementById('invice_result').innerHTML=''
 }
 </script>
 {% endblock content %}

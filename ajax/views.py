@@ -168,4 +168,10 @@ def doctor_filter(request):
         t = render_to_string('ajax/doctor_filter.html', context)
         return JsonResponse({'data': t})
 
- 
+def invice_filter(request):
+    if request.method == "GET":
+        invice_words =request.GET['invice_words']
+        medical_id =request.GET['medical_id']
+        i=Add_stock.objects.values().filter(invice_number__icontains=invice_words,stock_status=1,medical_id=medical_id)[0:2]
+        inv=list(i)
+        return JsonResponse({'inv':inv})
