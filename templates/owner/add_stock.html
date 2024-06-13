@@ -96,6 +96,13 @@
         margin-bottom: 10px;
         padding: 5px;
     }
+    .tpp-2{
+        display: flex;
+        background-color: rgb(161, 233, 255);
+        border-radius: 20px;
+        padding: 5px;
+        padding-bottom: 1px;
+    }
     .total_qty{
         display: flex;
         justify-content: center;
@@ -204,7 +211,7 @@
         <div class="items_qty">
             <div class="items_qty_footer">
                 <div><p class="qty_p">Qty</p><input name="qty" class="qty for_qty sub form-control" id="qty" oninput="calculte_price(),calculte_qty(),check_qty()" placeholder="Qty" type="number" required></div>
-                <div><p class="qty_p">Select Stripe</p><select name="qty_stripe" class="sub form-select" aria-label="Default select example" id="stripe" oninput="calculte_qty()">
+                <div><p class="qty_p">Select Stripe</p><select name="qty_stripe" class="sub form-select" aria-label="Default select example" id="stripe" oninput="calculte_qty(),calculte_price()">
 
                     <option value="1" selected>1</option>
                     <option value="2">2</option>
@@ -216,6 +223,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                     <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
                 </select></div>
 
             </div>
@@ -245,6 +262,12 @@
             </div>
         </div>
         <div>
+            <div class="tpp-2">
+                <div><h6>Purchase Rs.</h6></div>
+                    <strong  id="set_total_prc_strong" ></strong>
+                    <input type="hidden" name="total_purchase_price" id="set_prc">
+
+            </div>
             <div class="tpp">
                 <div><h6>Taxable Purchase Rs.</h6></div>
                 <div class="text-center">
@@ -258,7 +281,7 @@
             <div class="items_qty_footer">
                 <div><p class="qty_p">Discount Qty</p><input value="0"  name="disc_qty" class="qty for_qty sub form-control" id="d_qty" placeholder="Qty" type="number" oninput="calculte_discount_qty(),check_dic_qty()"></div>
                 <div><p class="qty_p">Select Stripe</p><select  class="sub form-select" name="disc_qty_stripe" aria-label="Default select example" id="d_stripe" oninput="calculte_discount_qty()">
-                    <option value="1" selected>1</option>
+                    <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
@@ -268,6 +291,16 @@
                     <option value="8">8</option>
                     <option value="9">9</option>
                     <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
                 </select></div>
 
             </div>
@@ -311,7 +344,8 @@
 <script>
 function calculte_price(){
     var price = document.getElementById('prc').value;
-    var qty = document.getElementById('qty').value;
+    var qty = document.getElementById('set_qty').value;
+
     var gst = document.getElementById('gst').value;
     var disc_rs = document.getElementById('disc_rs').value;
     p=qty*price
@@ -319,20 +353,20 @@ function calculte_price(){
     var c = (parseFloat(s)*parseFloat(gst))/100;
     s+=c
     s = Math.ceil(s);
+    document.getElementById('set_total_prc_strong').innerHTML=p;
     document.getElementById('set_prc_strong').innerHTML=s;
     document.getElementById('set_prc').value=s;
 }
 function check_disc_rs(){
     var disc_rs = document.getElementById('disc_rs').value;
     var total_price = document.getElementById('set_prc').value;
-    //console.log(total_price)
-    if (disc_rs > total_price){
-        document.getElementById('disc_rs').value = 0;
-    }
+    dr = parseInt(disc_rs)
+    tp = parseInt(total_price)
+
     if (disc_rs < 0){
         document.getElementById('disc_rs').value=0;
     }
-    calculte_price()
+   
 }
 function check_price(){
     var price = document.getElementById('prc').value;
@@ -365,7 +399,7 @@ function calculte_qty(){
     q = Math.ceil(q);
     document.getElementById('set_qty').value=q;
     document.getElementById('set_qty_strong').innerHTML=q;
-    
+    calculte_price()
     }
 
 

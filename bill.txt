@@ -11,6 +11,7 @@ sudo systemctl restart okmybill.com.gunicorn
 
 ***********************
 source venv/bin/activate
+python manage.py makemigrations --merge
 python3 manage.py makemigrations
 python3 manage.py migrate
 
