@@ -68,6 +68,7 @@ def add_stock(request):
             company_name = request.POST.get('company_name')
             item_type = request.POST.get('item_type')
             purchase_price = eval(request.POST.get('purchase_price'))
+            purchase_price = eval(purchase_price)
             gst = request.POST.get('gst')
             qty = request.POST.get('qty')
             qty_stripe = request.POST.get('qty_stripe')
