@@ -68,13 +68,13 @@ def add_stock(request):
             company_name = request.POST.get('company_name')
             item_type = request.POST.get('item_type')
             purchase_price = request.POST.get('purchase_price')
-            purchase_price = eval(purchase_price)
             gst = request.POST.get('gst')
             qty = request.POST.get('qty')
             qty_stripe = request.POST.get('qty_stripe')
             temp_qty = request.POST.get('temp_qty')
             total_purchase_price= request.POST.get('total_purchase_price')
             disc_qty= request.POST.get('disc_qty')
+            disc_price= request.POST.get('disc_qty')
             disc_qty_stripe= request.POST.get('disc_qty_stripe')
             disc_temp_qty= request.POST.get('disc_temp_qty')
             total_qty = int(temp_qty) + int(disc_temp_qty)
@@ -84,7 +84,6 @@ def add_stock(request):
             n=expiry_date
             d='01'
             expiry_date=f"{n}-{d}"
-            print(expiry_date)
             if expiry_date == '-01':
                 expiry_date = None
             batch_number = request.POST.get('batch_number') 
@@ -104,6 +103,7 @@ def add_stock(request):
                     temp_qty=temp_qty,
                     total_purchase_price=total_purchase_price,
                     disc_qty=disc_qty,
+                    disc_price=disc_price,
                     disc_qty_stripe=disc_qty_stripe,
                     disc_temp_qty=disc_temp_qty,
                     total_qty=total_qty,
@@ -137,6 +137,7 @@ def add_stock(request):
                     temp_qty=temp_qty,
                     total_purchase_price=total_purchase_price,
                     disc_qty=disc_qty,
+                    disc_price=disc_price,
                     disc_qty_stripe=disc_qty_stripe,
                     disc_temp_qty=disc_temp_qty,
                     total_qty=total_qty,

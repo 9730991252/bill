@@ -272,7 +272,7 @@
 
         <div class="items">
             <div> <p>Purchase Price</p> <input step="any"  name="purchase_price" placeholder="Price" id="prc" oninput="calculte_price(),check_price(),check_disc_rs()" class="price form-control" type="number"  required></div>
-            <div> <p>Disc Rs</p> <input step="any"  name="purchase_price" placeholder="disc Rs" id="disc_rs" oninput="calculte_price(),check_disc_rs()"  class="form-control price" type="number" ></div>
+            <div> <p>Disc Rs</p> <input step="any"  name="disc_price" placeholder="disc Rs" id="disc_rs" oninput="calculte_price(),check_disc_rs()"  class="form-control price" type="number" ></div>
         </div>
 
         <div class="gst_ttp">
@@ -387,7 +387,7 @@ function calculte_price(){
     var c = (parseFloat(s)*parseFloat(gst))/100;
     s+=c
     s = Math.ceil(s);
-    document.getElementById('set_total_prc_strong').innerHTML=p;
+    document.getElementById('set_total_prc_strong').innerHTML=Math.ceil(p);
     document.getElementById('set_prc_strong').innerHTML=s;
     document.getElementById('set_prc').value=s;
 }
