@@ -62,6 +62,8 @@ def add_stock(request):
             return redirect('/owner/add_stock/')
         if 'Add_Stock_Item'in request.POST:
             medical_id = request.POST.get('medical_id')
+            party_id = request.POST.get('party_id')
+            item_id = request.POST.get('item_id')
             item_name = request.POST.get('item_name').lower()
             company_name = request.POST.get('company_name')
             item_type = request.POST.get('item_type')
@@ -76,7 +78,7 @@ def add_stock(request):
             disc_temp_qty= request.POST.get('disc_temp_qty')
             total_qty = int(temp_qty) + int(disc_temp_qty)
             invice_number = request.POST.get('invice_number') 
-            parti_name = request.POST.get('parti_name') 
+            party_name = request.POST.get('parti_name') 
             expiry_date = request.POST.get('expiry_date') 
             n=expiry_date
             d='01'
@@ -89,7 +91,9 @@ def add_stock(request):
             if Item.objects.filter(item_name=item_name).exists():
                 Add_stock(
                     medical_id=medical_id,
+                    party_id=party_id,
                     item_name=item_name,
+                    item_id=item_id,
                     company_name=company_name,
                     item_type=item_type,
                     purchase_price=purchase_price,
@@ -104,7 +108,7 @@ def add_stock(request):
                     total_qty=total_qty,
                     stock_qty=total_qty,
                     invice_number=invice_number,
-                    parti_name=parti_name,
+                    party_name=party_name,
                     expiry_date=expiry_date,
                     batch_number=batch_number,
                     sell_price_per_unit=sell_price_per_unit,
@@ -117,9 +121,12 @@ def add_stock(request):
                     item_type=item_type,
                     company_name=company_name,
                 ).save()
+                new_i=Item.objects.filter(medical_id=medical_id).last()
                 Add_stock(
                     medical_id=medical_id,
+                    party_id=party_id,
                     item_name=item_name,
+                    item_id=new_i.id,
                     company_name=company_name,
                     item_type=item_type,
                     purchase_price=purchase_price,
@@ -134,7 +141,7 @@ def add_stock(request):
                     total_qty=total_qty,
                     stock_qty=total_qty,
                     invice_number=invice_number,
-                    parti_name=parti_name,
+                    party_name=party_name,
                     expiry_date=expiry_date,
                     batch_number=batch_number,
                     sell_price_per_unit=sell_price_per_unit,
@@ -145,7 +152,8 @@ def add_stock(request):
             #'i':Item.objects.filter(medical_id=m.id)[0:10],
             'm':m,
             'item':item,
-            'today_list':today_list
+            'today_list':today_list,
+            'p':Add_party.objects.all()[0:2]
         }
         return render(request,'owner/add_stock.html', context)
     else:

@@ -1,0 +1,12 @@
+{% for p in p %}
+<div class="party_result text-center" onclick="select_party('{{p.id}}','{{p.party_name}}','{{p.party_address}}','{{p.license_number}}','{{p.gst_number}}')">
+    <div>
+        <div><p>{{p.party_name}}</p></div>
+        <div><p>{{p.party_address}}</p></div>
+    </div>
+    <div class="party_result_foot">
+        <div><p>{{p.license_number}}</p></div>
+        <div><p>{{p.gst_number}}</p></div>
+    </div>
+</div>
+{% endfor %}

@@ -6,7 +6,9 @@ from owner.models import *
 def index(request):
     #Order_detail.objects.all().delete()
     #Order_Master.objects.all().delete()
+    #Cart.objects.all().delete()
     #Add_stock.objects.all().delete()
+    #Add_party.objects.all().delete()
     #Item.objects.all().delete()
     if request.session.has_key('owner_mobile'):
         return redirect('/owner/owner_dashboard/')

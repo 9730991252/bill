@@ -48,20 +48,7 @@
         background-color: rgb(147, 247, 140);
         border-radius: 6.5px;
     }
-    .invice_box{
-        margin: 20px;
-        margin-top: 1px;
-        font-weight: 500;
-        text-align: center;
-        background-color: rgb(147, 247, 140);
-        border-radius: 6.5px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 5px;
-        input{
-            width: 100%;
-        }
-    }
+
     .items_qty_footer{
         display: flex;
         justify-content: space-between;
@@ -73,7 +60,7 @@
         justify-content: center;
         width: 100%;
     }
-    .price, .invice_number{
+    .price{
         width: 120px;
         text-align: center;
     }
@@ -81,7 +68,7 @@
         width: 120px;
         text-align: center;
     }
-    .invice_number, .date{
+    .date{
         border: 1px solid rgba(0, 0, 0, 0.5);
     }
     .add_btn{
@@ -133,6 +120,46 @@
     .gst_ttp{
         display: grid;
         grid-template-columns: 2fr 3fr;
+    }
+    .party_box{
+        width: 100%;
+        padding: 10px;
+        input{
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+    }
+    .party_result{
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 10px;
+        border-radius: 10px;
+        line-height: 15px;
+        padding: 5px;
+        overflow: hidden;
+        
+    }
+    .party_result_foot{
+        line-height: 0px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .last_invice{
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        margin: 10px;
+        border-radius: 10px;
+        line-height: 25px;
+        padding: 5px;
+        overflow: hidden;
+        text-align: center;
+        background-color: rgb(255, 189, 200);
+        font-weight: 500;
+    }
+    .last_invice_footer{
+        display: inline-flex;
+        gap: 12px;
     }
     </style>
 <h6>Welcome.{{m.medical_name}}</h6>
@@ -188,7 +215,7 @@
         <div class="item_name" >
             <input oninput="filter_item()" value="{{item.item_name}}" id="item_words" type="text" class="form-control" placeholder="Item Name" name="item_name" required>
         </div>
-        <input type="hidden" name="item_id" value="{{i.id}}">
+        <input type="hidden" name="item_id" value="{{item.id}}">
         <div class="m-3">
         <div><input type="text" value="{{item.company_name}}" name="company_name" placeholder="Company Name" class="form-control" ></div>
         <br>
@@ -245,7 +272,7 @@
 
         <div class="items">
             <div> <p>Purchase Price</p> <input step="any"  name="purchase_price" placeholder="Price" id="prc" oninput="calculte_price(),check_price(),check_disc_rs()" class="price form-control" type="number"  required></div>
-            <div> <p>Disc Rs</p> <input step="any"  name="purchase_price" placeholder="disc Rs" id="disc_rs" oninput="calculte_price(),check_disc_rs()"  class="form-control price" type="number"  required></div>
+            <div> <p>Disc Rs</p> <input step="any"  name="purchase_price" placeholder="disc Rs" id="disc_rs" oninput="calculte_price(),check_disc_rs()"  class="form-control price" type="number" ></div>
         </div>
 
         <div class="gst_ttp">
@@ -319,13 +346,20 @@
             <div> <p>Batch <br> Number</p> <input name="batch_number" class="qty form-control" placeholder="Batch Number" type="text"></div>
         </div>
 
+<div id="last_invice_result"></div>
 
-        <div class="invice_box">
-            <div> <p>Invice Number</p> <input name="invice_number" oninput="invice_filter()" id="invice_words" class="invice_number form-control" placeholder="Invice Number" type="text"> 
-                </div>
-                <div> <p>Parti Name</p> <input name="parti_name" id="parti_name"  class="parti_name form-control" placeholder="Part Name" type="text"></div>
-                </div>
-            <div id="invice_result" class="text-center" ></div>
+
+        
+        <div class="party_box">
+            <div><input name="invice_number"  id="invice_number" class="form-control" placeholder="Invice Number" type="text"> </div>
+            <input type="hidden" name="party_id" id="party_id" >
+            <div><input oninput="filter_party()" name="parti_name" id="party_name"  class="parti_name form-control" placeholder="Party Name" type="text"></div>
+            <div><input oninput="filter_party()" name="party Address" id="party_address"  class="parti_name form-control" placeholder="Party Address" type="text"></div>
+            <div><input oninput="filter_party()" name="Party Address" id="license_number"  class="parti_name form-control" placeholder="License Number" type="text"></div>
+            <div><input oninput="filter_party()" name="gst_number" id="gst_number"  class="parti_name form-control" placeholder="Gst Number" type="text"></div>
+            <div class="text-center"><a id="add_party" onclick="add_party()" class="btn btn-danger btn-sm">Add Party</a></div>
+        </div>
+        <div id="party_ruselt"></div>
 
 
         <div class="item_footer">
@@ -431,23 +465,19 @@ function filter_item(){
     })
 }
 
-
+invice_filter()
 function invice_filter(){
-let invice_words=document.getElementById('invice_words').value;
 let medical_id = document.getElementById('medical_id').value;
     $.ajax({
         url:"{% url 'invice_filter' %}",
         method: "GET",
         data:{
-            invice_words:invice_words,
             medical_id:medical_id
         },
-        success: function(data){
-            for(key=0; key<data.inv.length; key++){
-                invice_number=(data.inv[key].invice_number)
-                parti_name=(data.inv[key].parti_name)
-                document.getElementById('invice_result').innerHTML=`<div onclick='select_invice("${invice_number}","${parti_name}")'>${invice_number}<br>${parti_name}</div>`;
-            }
+        success: function(res){
+            console.log(res.data)
+            $("#last_invice_result").html(res.data);
+ 
         }
     })
 }
@@ -455,6 +485,76 @@ function select_invice(numb,parti_name){
     document.getElementById('invice_words').value=numb;
     document.getElementById('parti_name').value=parti_name;
     document.getElementById('invice_result').innerHTML=''
+}
+
+function add_party(){
+    let medical_id = document.getElementById('medical_id').value;
+    var party_name = document.getElementById('party_name').value;
+    var party_address = document.getElementById('party_address').value;
+    var license_number = document.getElementById('license_number').value;
+    var gst_number = document.getElementById('gst_number').value;
+    $.ajax({
+        url:"{% url 'add_party' %}",
+        method: "GET",
+        data:{
+            medical_id:medical_id,
+            party_name:party_name,
+            party_address:party_address,
+            license_number:license_number,
+            gst_number:gst_number
+             
+        },
+        success: function(data){
+            document.getElementById('party_id').value = data.party_id;
+            if(data.status == 1){
+                document.getElementById('add_party').style.display='none';
+            }
+            if(data.status == 0){
+                alert('exits')
+            }
+        }
+    })
+}
+function filter_party(){
+    var party_name = document.getElementById('party_name').value;
+    var party_address = document.getElementById('party_address').value;
+    var license_number = document.getElementById('license_number').value;
+    var gst_number = document.getElementById('gst_number').value;
+    $.ajax({
+        url:"{% url 'filter_party' %}",
+        method: "GET",
+        data:{
+            party_name:party_name,
+            party_address:party_address,
+            license_number:license_number,
+            gst_number:gst_number
+             
+        },
+        success: function(res){
+                $("#party_ruselt").html(res.data);
+                //document.getElementById('#result').html(res.data);
+            }
+    })
+}
+function select_party(id,party_name,party_address,license_number,gst_number){
+     document.getElementById('party_id').value = id;
+     document.getElementById('party_name').value = party_name;
+    document.getElementById('party_address').value = party_address
+    document.getElementById('license_number').value = license_number;
+    document.getElementById('gst_number').value = gst_number ;
+    document.getElementById('add_party').style.display='none';
+    $("#party_ruselt").empty();
+}
+function select_last_invice(id,invice_number,party_name,party_address,license_number,gst_number){
+
+     document.getElementById('party_id').value = id;
+     document.getElementById('invice_number').value = invice_number;
+     document.getElementById('party_name').value = party_name;
+    document.getElementById('party_address').value = party_address
+    document.getElementById('license_number').value = license_number;
+    document.getElementById('gst_number').value = gst_number ;
+    document.getElementById('add_party').style.display='none';
+    $("#last_invice_result").empty();
 }
 </script>
 {% endblock content %}

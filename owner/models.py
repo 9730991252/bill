@@ -3,6 +3,14 @@ from sunil.models import *
 from PIL import Image
 # Create your models here.
 
+class Add_party(models.Model):
+    medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
+    party_name = models.CharField(max_length=200)
+    party_address = models.CharField(max_length=500)
+    license_number = models.CharField(max_length=20)
+    gst_number = models.CharField(max_length=50)
+    
+
 class Item(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
     item_name=models.CharField(max_length=500)
@@ -18,6 +26,9 @@ INSTOCK_OUTSTOCK_CHOICE=(
 )
 class Add_stock(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
+    item = models.ForeignKey(Item,on_delete=models.PROTECT,null=True)
+    party = models.ForeignKey(Add_party,on_delete=models.PROTECT,null=True)
+    party_name = models.CharField(max_length=100,null=True)
     item_name = models.CharField(max_length=100,null=True)
     company_name = models.CharField(max_length=100,null=True)
     item_type = models.CharField(max_length=100,null=True)
@@ -33,7 +44,6 @@ class Add_stock(models.Model):
     total_qty = models.IntegerField(null=True)
     stock_qty = models.IntegerField()
     invice_number = models.CharField(max_length=100,null=True)
-    parti_name = models.CharField(max_length=100,null=True)
     expiry_date = models.DateField(max_length=100, null=True, blank=True,default=None,)
     batch_number = models.CharField(max_length=100,null=True)
     disc_price = models.FloatField(null=True)
@@ -104,3 +114,5 @@ class Order_detail(models.Model):
         #print(type(qty))
         self.total_price=price*qty
         super(Order_detail,self).save()
+
+

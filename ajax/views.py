@@ -40,7 +40,6 @@ def add_to_cart(request):
             s.stock_qty -= check_qty
             s.save()
         if 1 > stock_qty:
-            print('hi')
             k = Add_stock.objects.get(id=add_stock_id)
             k.stock_status = 0
             k.save()
@@ -133,7 +132,6 @@ def sell_item_filter(request):
         context={
                 'i':i
                 }
-        print(i)
     t = render_to_string('ajax/sell_item_filter.html', context)
     return JsonResponse({'data': t})
 
@@ -141,13 +139,13 @@ def sell_item_filter(request):
 
 def add_stock_item_filter(request):
     if request.method == 'GET':
+        i={}
         words = request.GET['words']
         if 2 < len(words):
             i=Item.objects.filter(item_name__icontains=words).order_by('-item_name')
         context={
                 'i':i
                 }
-        print(i)
     t = render_to_string('ajax/add_stock_item_filter.html', context)
     return JsonResponse({'data': t})
 
@@ -170,8 +168,61 @@ def doctor_filter(request):
 
 def invice_filter(request):
     if request.method == "GET":
-        invice_words =request.GET['invice_words']
+        p={}
         medical_id =request.GET['medical_id']
-        i=Add_stock.objects.values().filter(invice_number__icontains=invice_words,stock_status=1,medical_id=medical_id)[0:2]
-        inv=list(i)
-        return JsonResponse({'inv':inv})
+        k=Add_stock.objects.filter(medical_id=medical_id,stock_status=1).last()
+        if k.party_id:
+            p=Add_party.objects.get(id=k.party_id)
+        a=Add_stock.objects.filter(stock_status=1,medical_id=medical_id).last()
+        context={
+                'a':a,
+                'p':p
+            }
+        t = render_to_string('ajax/last_invice_filter.html', context)
+        return JsonResponse({'data': t})
+
+def add_party(request):
+    if request.method == 'GET':
+        medical_id = request.GET['medical_id']
+        party_name = request.GET['party_name']
+        party_address = request.GET['party_address']
+        license_number = request.GET['license_number'].lower()
+        gst_number = request.GET['gst_number'].lower()
+        pl = ''
+        pg = ''
+        if license_number :
+            pl = Add_party.objects.filter(license_number=license_number)
+        if gst_number:
+            pg = Add_party.objects.filter(gst_number=gst_number)
+        if 0 == len(pl) and 0 == len(pg):
+            Add_party(
+                medical_id=medical_id,
+                party_name=party_name,
+                party_address=party_address,
+                license_number=license_number,
+                gst_number=gst_number
+                ).save()
+            party_id=Add_party.objects.filter(medical_id=medical_id).last()
+            status = 1
+        return JsonResponse({'status':status,'party_id':party_id.id})
+    
+
+def filter_party(request):
+    if request.method == 'GET':
+        party_name = request.GET['party_name']
+        party_address = request.GET['party_address']
+        license_number = request.GET['license_number'].lower()
+        gst_number = request.GET['gst_number'].lower()
+        if 2 < len(party_name) :
+            p=Add_party.objects.filter(Q(party_name__icontains=party_name) )
+        if 2 < len(party_address) :
+            p=Add_party.objects.filter(Q(party_address__icontains=party_address) )
+        if 2 < len(license_number) :
+            p=Add_party.objects.filter(Q(license_number__icontains=license_number) )
+        if 2 < len(gst_number) :
+            p=Add_party.objects.filter(Q(gst_number__icontains=gst_number) )
+        context={
+                'p':p
+            }
+        t = render_to_string('ajax/party_filter.html', context)
+        return JsonResponse({'data': t})
