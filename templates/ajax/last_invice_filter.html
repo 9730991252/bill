@@ -3,8 +3,8 @@
     <div><h class="">{{a.invice_number}}</h></div>
     <div><h class="">{{p.party_name}}</h></div>
     <div><h class="">{{p.party_address}}</h></div>
-    <div class="last_invice_footer">
-        <div>{{p.license_number}}</div>
-        <div>{{p.gst_number}}</div>
+    <div class="">
+        <div>{{ p.license_number|upper }}</div>
+        <div>{{ p.gst_number|upper }}</div>
     </div>
 </div>

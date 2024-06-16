@@ -4,9 +4,9 @@
         <div><p>{{p.party_name}}</p></div>
         <div><p>{{p.party_address}}</p></div>
     </div>
-    <div class="party_result_foot">
-        <div><p>{{p.license_number}}</p></div>
-        <div><p>{{p.gst_number}}</p></div>
+    <div class="">
+        <div><p>{{p.license_number|upper}}</p></div>
+        <div><p>{{p.gst_number|upper}}</p></div>
     </div>
 </div>
 {% endfor %}

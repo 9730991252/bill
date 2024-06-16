@@ -132,11 +132,13 @@
     }
     .party_result{
         border: 1px solid rgba(0, 0, 0, 0.2);
-        margin: 10px;
         border-radius: 10px;
+        margin-bottom: 5px;
         line-height: 15px;
         padding: 5px;
+        font-weight: 500;
         overflow: hidden;
+        background-color: rgb(186, 255, 255);
         
     }
     .party_result_foot{
@@ -158,8 +160,8 @@
         font-weight: 500;
     }
     .last_invice_footer{
-        display: inline-flex;
-        gap: 12px;
+        display: flex;
+        gap: 50px;
     }
     </style>
 <h6>Welcome.{{m.medical_name}}</h6>
@@ -352,6 +354,7 @@
         
         <div class="party_box">
             <div><input name="invice_number"  id="invice_number" class="form-control" placeholder="Invice Number" type="text"> </div>
+            <div id="party_ruselt"></div>
             <input type="hidden" name="party_id" id="party_id" >
             <div><input oninput="filter_party()" name="parti_name" id="party_name"  class="parti_name form-control" placeholder="Party Name" type="text"></div>
             <div><input oninput="filter_party()" name="party Address" id="party_address"  class="parti_name form-control" placeholder="Party Address" type="text"></div>
@@ -359,7 +362,6 @@
             <div><input oninput="filter_party()" name="gst_number" id="gst_number"  class="parti_name form-control" placeholder="Gst Number" type="text"></div>
             <div class="text-center"><a id="add_party" onclick="add_party()" class="btn btn-danger btn-sm">Add Party</a></div>
         </div>
-        <div id="party_ruselt"></div>
 
 
         <div class="item_footer">
@@ -544,6 +546,7 @@ function select_party(id,party_name,party_address,license_number,gst_number){
     document.getElementById('gst_number').value = gst_number ;
     document.getElementById('add_party').style.display='none';
     $("#party_ruselt").empty();
+    $("#last_invice_result").empty();
 }
 function select_last_invice(id,invice_number,party_name,party_address,license_number,gst_number){
 
