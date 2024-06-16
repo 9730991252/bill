@@ -236,6 +236,7 @@ padding: 10px;
         {% include 'include/alert.html' %}
     <form method="POST">{% csrf_token %}
         <input type="hidden" id="c_id" value="{{c.id}}">
+        <input type="hidden" id="doctor_id" value="{{doctor.id}}">
         <div class="name">
             <input type="text" oninput="search_customer()" name="customer_name" id="customer_name" value="{{c.customer_name}}" placeholder="Customer Name" required>
             <input type="number" oninput="search_customer()" name="mobile" id="customer_mobile" value="{{c.mobile}}" placeholder="Mobile" required>
@@ -259,7 +260,7 @@ padding: 10px;
     <div class="doctor_box">
         <form method="POST">
             <input type="hidden" name="customer_id" value="{{c.id}}">
-            <input type="hidden" id="doctor_id" value="{{doctor.id}}">
+           
         <div class="doctor_name">
             <div><input type="text" oninput="doctor_search()" id="doctor_name" name="doctor_name" value="{{doctor.doctor_name}}" placeholder="Doctor Name" required></div>
             <div><input type="text" oninput="doctor_search()" id="degree" name="degree" value="{{doctor.degree}}" placeholder="Degree" required></div>
@@ -282,6 +283,7 @@ padding: 10px;
 <div style="display: none;" id="place_btn">
     <form method="POST">{% csrf_token %}
             <input type="hidden" name="customer_id" id="customer_id"  value="{{c.id}}">     
+            <input type="hidden" name="doctor_id" value="{{doctor.id}}"> 
             <button class="btn btn-warning m-3 " name="Complete_Order">Complete Order</button>
     </form>
     </div>
@@ -313,7 +315,7 @@ padding: 10px;
         <div class="item_footer">
             <div class="price"> <p>Price</p> <input id="prc{{i.id}}" oninput="calculte_price('{{i.id}}')"  type="number" value="{{i.sell_price_per_unit}}"></div>
             <div class="minus"><button type="button" onclick="minus('{{i.id}}')" class="btn btn-success px-3">-</button></div>
-            <div class="qty"> <p>Qty</p> <input type="number" id="qty{{i.id}}" oninput="set_stock('{{i.id}}')" placeholder=" Qty "></input></div>
+            <div class="qty"> <p>Qty</p> <input type="number" id="qty{{i.id}}" value="1" oninput="set_stock('{{i.id}}')" placeholder=" Qty "></input></div>
             <div class="plus"><button type="button" onclick="plus('{{i.id}}')"  class="btn btn-success px-3" >+</button></div>
             </div>
             <div class="totle">
@@ -341,6 +343,9 @@ padding: 10px;
     </div>
 
     <script>   
+
+
+
  function sell_item_filter(){
     var words = document.getElementById('input_words').value;
     var medical_id = document.getElementById('medical_id').value;
@@ -487,17 +492,7 @@ function add_to_cart(id){
     if (document.getElementById('medical_id') != null) {
         var medical_id = document.getElementById('medical_id').value;
 }
-    if (customer_id = document.getElementById('c_id') != null) {
-        var customer_id = document.getElementById('c_id').value;
-}
-    if (document.getElementById('doctor_id') != null) {
-        var d_id = document.getElementById('doctor_id').value;
-}
 
-
-    //var medical_id = document.getElementById('medical_id').value;
-    //var customer_id = document.getElementById('c_id').value;
-    //var doctor_id = document.getElementById('doctor_id').value;
     $.ajax({
         url: "{% url 'add_to_cart' %}",
         method: "GET",
@@ -506,8 +501,7 @@ function add_to_cart(id){
             sell_price_per_unit:sell_price_per_unit,
             medical_id:medical_id,
             add_stock_id:id,
-            customer_id:customer_id,
-            d_id:d_id,
+            item_id:id,
             },
             success: function(res){
         

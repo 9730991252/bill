@@ -217,6 +217,7 @@ def sell_item(request):
             c = Customer.objects.get(id=c_id)
         if 'Complete_Order' in request.POST:
             customer_id = request.POST.get('customer_id')
+            doctor_id = request.POST.get('doctor_id')
             t = Cart.objects.filter(medical_id=m.id).aggregate(Sum("total_price"))
             t = t['total_price__sum']
             f=Order_Master.objects.filter(medical_id=m.id).count()
@@ -231,20 +232,18 @@ def sell_item(request):
             cart = Cart.objects.filter(medical_id=m.id)
             if cart:
                 for cart in cart:
-                    prc = cart.price
+                    prc = cart.sell_price_per_unit
                     prc = str(prc)
                     nqty = cart.qty
                     nqty = str(nqty)
                     Order_detail(
                         medical_id=cart.medical_id,
+                        doctor_id=doctor_id,
                         customer_id=customer_id,
                         item_id=cart.item_id,
-                        invice_number=cart.add_stock.invice_number,
-                        expiry_date=cart.add_stock.expiry_date,
-                        item_name=cart.item.item_name,
+                        add_stock_id=cart.add_stock_id,
                         qty=nqty,
-                        price=prc,
-                        total_price=cart.total_price,
+                        sell_price_per_unit=prc,
                         order_filter=f,
                         ).save()
             Cart.objects.filter(medical_id=m.id).delete()
@@ -268,6 +267,7 @@ def complate_view_order(request, id):
     if request.session.has_key('owner_mobile'):
         owner_mobile = request.session['owner_mobile']
         context={}
+        customer_id=0
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
@@ -286,7 +286,6 @@ def complate_view_order(request, id):
             c = Customer.objects.get(id=customer_id)
             customer_name = c.customer_name
             mobile = c.mobile
-            print('hi')
         context={
                 'o':Order_detail.objects.filter(medical_id=m.id,order_filter=id),
                 'm':m,

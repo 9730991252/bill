@@ -9,7 +9,8 @@ def index(request):
     #Cart.objects.all().delete()
     #Add_stock.objects.all().delete()
     #Add_party.objects.all().delete()
-    #Item.objects.all().delete()
+    #Order_Master.objects.all().delete()
+    #Order_detail.objects.all().delete()
     if request.session.has_key('owner_mobile'):
         return redirect('/owner/owner_dashboard/')
     if 'Login' in request.POST:

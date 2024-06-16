@@ -16,8 +16,7 @@ def add_to_cart(request):
         l=[]
         medical_id = request.GET['medical_id']
         add_stock_id = request.GET['add_stock_id']
-        customer_id = request.GET['customer_id']
-        #d_id = request.GET['d_id']
+        item_id = request.GET['item_id']
         qty = request.GET['qty']
         sell_price_per_unit = request.GET['sell_price_per_unit']
         check_qty=int(qty)
@@ -30,8 +29,7 @@ def add_to_cart(request):
             Cart(
                 medical_id=medical_id,
                 add_stock_id=add_stock_id,
-                customer_id=customer_id,
-                #doctor_id=d_id,
+                item_id=item_id,
                 qty=qty,
                 sell_price_per_unit=sell_price_per_unit,
 
