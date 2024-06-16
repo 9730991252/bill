@@ -11,10 +11,17 @@ class Add_party(models.Model):
     gst_number = models.CharField(max_length=50)
     
 
+Schedule=(
+    ('Regular','Regular'),
+    ('H1','H1'),
+    ('X','X'),
+)
+
 class Item(models.Model):
     medical = models.ForeignKey(Medical,on_delete=models.PROTECT,null=True)
     item_name=models.CharField(max_length=500)
     item_type = models.CharField(max_length=100,null=True)
+    schedule_type = models.CharField(choices=Schedule,null=True,max_length=100)
     date=models.DateField(auto_now_add=True,null=True)
     company_name = models.CharField(max_length=100,null=True)
 
@@ -32,6 +39,7 @@ class Add_stock(models.Model):
     item_name = models.CharField(max_length=100,null=True)
     company_name = models.CharField(max_length=100,null=True)
     item_type = models.CharField(max_length=100,null=True)
+    schedule_type = models.CharField(max_length=100,null=True)
     purchase_price = models.FloatField(null=True)
     gst = models.IntegerField(null=True)
     qty = models.IntegerField(null=True)

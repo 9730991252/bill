@@ -163,6 +163,11 @@
         display: flex;
         gap: 50px;
     }
+
+    .item_type{
+        display: flex;
+
+    }
     </style>
 <h6>Welcome.{{m.medical_name}}</h6>
 <input type="hidden" id="medical_id" value="{{m.id}}">
@@ -221,7 +226,8 @@
         <div class="m-3">
         <div><input type="text" value="{{item.company_name}}" name="company_name" placeholder="Company Name" class="form-control" ></div>
         <br>
-            <div>
+            <div class="item_type">
+                <div>
             <select  class="form-select" name="item_type" aria-label="Default select example" >
                 {% if item.item_type|length < 1 %}
                 <option selected>Select Type</option>
@@ -235,6 +241,20 @@
                 <option value="Inhalers">Inhalers</option>
                 <option value="stationery">stationery items</option>
             </select>
+        </div>
+                <div>
+            <select  class="form-select" name="schedule_type" aria-label="Default select example" >
+                {% if item.schedule_type|length < 1 %}
+                <option selected value="Regular">Schedule</option>
+                {% else %}
+                <option selected value="{{item.schedule_type}}" >{{item.schedule_type}}</option>
+                {% endif %}
+                <option value="Regular">Regular</option>
+                <option value="H1">H1</option>
+                <option value="X">X</option>
+
+            </select>
+        </div>
         </div>
         </div>
         <div class="items_qty">

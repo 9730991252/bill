@@ -67,6 +67,7 @@ def add_stock(request):
             item_name = request.POST.get('item_name').lower()
             company_name = request.POST.get('company_name')
             item_type = request.POST.get('item_type')
+            schedule_type = request.POST.get('schedule_type')
             purchase_price = request.POST.get('purchase_price')
             gst = request.POST.get('gst')
             qty = request.POST.get('qty')
@@ -78,7 +79,7 @@ def add_stock(request):
             disc_qty_stripe= request.POST.get('disc_qty_stripe')
             disc_temp_qty= request.POST.get('disc_temp_qty')
             total_qty = int(temp_qty) + int(disc_temp_qty)
-            invice_number = request.POST.get('invice_number') 
+            invice_number = request.POST.get('invice_number').lower() 
             party_name = request.POST.get('parti_name') 
             expiry_date = request.POST.get('expiry_date') 
             n=expiry_date
@@ -96,6 +97,7 @@ def add_stock(request):
                     item_id=item_id,
                     company_name=company_name,
                     item_type=item_type,
+                    schedule_type=schedule_type,
                     purchase_price=purchase_price,
                     gst=gst,
                     qty=qty,
@@ -120,6 +122,7 @@ def add_stock(request):
                     medical_id=medical_id,
                     item_name=item_name,
                     item_type=item_type,
+                    schedule_type=schedule_type,
                     company_name=company_name,
                 ).save()
                 new_i=Item.objects.filter(medical_id=medical_id).last()
@@ -130,6 +133,7 @@ def add_stock(request):
                     item_id=new_i.id,
                     company_name=company_name,
                     item_type=item_type,
+                    schedule_type=schedule_type,
                     purchase_price=purchase_price,
                     gst=gst,
                     qty=qty,
