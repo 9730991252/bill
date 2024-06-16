@@ -36,8 +36,8 @@
 {% for o in o %}
 <div class="bill_box">
     <div class="bill_number">Bill Number&nbsp;<strong>{{o.order_filter}}</strong></div>
-    <div class="employee_name">Employee Name&nbsp;<strong>kartic kale</strong></div>
-    <div class="customer_name">Customer Name&nbsp;<strong>{{o.customer.customer_name}}</strong></div>
+    
+    <div class="customer_name"><strong>{{o.customer.customer_name}}</strong></div>
     <div class="amount">Total Amount&nbsp;<strong>{{o.total_amount}}</strong></div>
     <div >
         <div class="status"><button class="btn btn-danger btn-sm m-1">UnPaid</button></div>

@@ -10,15 +10,22 @@
         display: flex;
         justify-content: space-between;
     }
-    .customer{
-        display: flex;
-        justify-content: space-between;
-
+    .customer_doctor_box{
+      display: flex;
+      justify-content: space-between;
+    }
+    .customer_box{
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    .doctor_box{
+      padding: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
     }
 </style>
 <style media="print">
     @page{
-    size: 3in 5in;
+    size: 4in 4in;
     margin: 0in;
     padding: 0in;
   }
@@ -35,10 +42,6 @@
     line-height: 2px;
   }
   .bd{
-        display: flex;
-        justify-content: space-between;
-    }
-  .customer{
         display: flex;
         justify-content: space-between;
     }
@@ -60,11 +63,40 @@
             <h6 class="text-center">{{m.address}}</h6>
         </div>
         </div>
+        <div class="customer_doctor_box">
 
-        <div class="customer">
-            <div class="customer_name"><h6>Customer Name- {{customer_name}}</h6></div>
-            <div class="customer_mobile"><h6>Customer Mobile- {{mobile}}</h6></div>
+          {% if c == '' %}
+          {% else %}
+
+        <div class="customer_box">
+          <div class="text-center">
+            <h6>Patient Details</h6>
+          </div>
+          <div style="display: flex; gap: 20px;">
+            <div class="customer_name"><h6>{{c.customer_name}}</h6></div>
+            <div class="customer_mobile"><h6>{{c.mobile}}</h6></div>
+          </div>
+          <div class="text-center">
+          <div class="customer_mobile"><h6>{{c.address}}</h6></div>
         </div>
+        </div>
+        {% endif %}
+
+        {% if d == '' %}
+        {% else %}
+        <div class="doctor_box">
+          <div class="text-center">
+            <h6>Doctor Details</h6>
+          </div>
+          <div class="customer_name"><h6>{{d.doctor_name}}</h6></div>
+          <div class="customer_mobile"><h6>{{d.degree}}</h6></div>
+        </div>
+        {% endif %}
+
+
+      </div>
+
+
 
         <div class="bd">
             <div class="bill_number"><h6>Bill Number-  {{bill_number}}</h6></div>
@@ -83,6 +115,8 @@
             <tr>
               <div class="row">
               <div class="col-8"><th >Item </th></div>
+              <div class="col-8"><th >Bach Num</th></div>
+              <div class="col-8"><th >Expiry</th></div>
               <div class="col-1"><th >Qty</th></div>
               <div class="col-1"><th >Price</th></div>
               <div class="col-2"><th >Total Price</th></div>
@@ -95,6 +129,8 @@
             <tr>
               <div class="row">
               <div class="col-8"><td>{{o.add_stock.item_name}}</td></div>
+              <div class="col-8"><td>{{o.add_stock.batch_number}}</td></div>
+              <div class="col-8"><td>{{o.add_stock.expiry_date}}</td></div>
               <div class="col-1"><td>{{o.qty}}</td></div>
               <div class="col-1"><td>{{o.sell_price_per_unit}}</td></div>
               <div class="col-2"><td>{{ o.total_price|floatformat:2 }}</td></div>

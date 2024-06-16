@@ -247,7 +247,7 @@ def sell_item(request):
                         order_filter=f,
                         ).save()
             Cart.objects.filter(medical_id=m.id).delete()
-            return redirect('/')
+            return redirect(f'/owner/complate_view_order/{f}')
         context={
             'i':Add_stock.objects.filter(medical_id=m.id,stock_status=1)[0:25],
             'm':m,
@@ -268,6 +268,8 @@ def complate_view_order(request, id):
         owner_mobile = request.session['owner_mobile']
         context={}
         customer_id=0
+        c = ''
+        d = ''
         m=Medical.objects.filter(mobile=owner_mobile).first()
         if m:
             m=Medical.objects.get(mobile=owner_mobile)
@@ -279,21 +281,21 @@ def complate_view_order(request, id):
                 bill_number=i.order_filter
                 date=i.ordered_date
                 customer_id=i.customer_id
+                doctor_id=i.doctor_id
         if customer_id == None:
             customer_name = ''
             mobile = ''
         else:
             c = Customer.objects.get(id=customer_id)
-            customer_name = c.customer_name
-            mobile = c.mobile
+            d = Doctor.objects.get(id=doctor_id)
         context={
                 'o':Order_detail.objects.filter(medical_id=m.id,order_filter=id),
                 'm':m,
                 'bill_number':bill_number,
                 'date':date,
                 't':t,
-                'customer_name':customer_name,
-                'mobile':mobile,
+                'c':c,
+                'd':d
         }
         return render(request, 'owner/complate_view_order.html', context)
     else:
