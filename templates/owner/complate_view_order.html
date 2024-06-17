@@ -22,6 +22,10 @@
       padding: 10px;
       border: 1px solid rgba(0, 0, 0, 0.2);
     }
+    .print_foot{
+      display: flex;
+      justify-content: space-between;
+    }
 </style>
 <style media="print">
     @page{
@@ -61,7 +65,9 @@
         <div class="row">
             <div class="col-11">
             <h6 class="text-center">{{m.address}}</h6>
-        </div>
+            <h6 class="text-center">{{m.mobile}}</h6>
+
+            </div>
         </div>
         <div class="customer_doctor_box">
 
@@ -139,8 +145,22 @@
             {% endfor %}
           </tbody>
         </table>
-        <h6>Total Amount Rs. {{t}}</h6>
-        <h6>Thank You Visit Again</h6>
+        <div class="print_foot">
+          <div class="licen">
+            <div>{{m.license_number}}</div>
+            <div>{{m.gst_number}}</div>
+            <div>{{m.jurisdiction}}</div>
+          </div>
+          <div>
+            <div>{{m.medical_name}}</div>
+            <div style="margin-bottom: 30px;"></div>
+            <div class="text-center" >pharmacists</div>
+          </div>
+          <div>
+            <div><h6>Total Amount Rs. {{t}}</h6></div>
+            <div><h6>Thank You Visit Again</h6></div>
+          </div>
+      </div>
       </div>
     
 

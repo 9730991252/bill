@@ -86,5 +86,14 @@
         console.log(s)
         document.getElementById('sq').innerHTML = ` = ${s} `
     }
+
+test()
+function test(){
+  
+    const inches = parseFloat(document.getElementById('inches').value);
+   if( inches > 48 , inches < 60 ) {
+    document.getElementById('result').innerHTML`5 feet`;
+   }
+}
 </script>
 {% endblock content %}

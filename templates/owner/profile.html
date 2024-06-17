@@ -1,0 +1,85 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+<style>
+.profile_box{
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 350px;
+    margin: auto;
+}
+</style>
+{% include 'include/nav_bar.html' %}
+<h6 class="mt-1">Welcome.{{m.medical_name}}</h6>
+<input type="hidden" id="medical_id" value="{{m.id}}">
+<a class="btn btn-danger" href="/owner/owner_dashboard/">back</a>
+
+
+
+<div class="profile_box text-center">
+    <div class="medical_name">
+        <h6>{{m.medical_name}}</h6>
+    </div>
+    <div class="address">
+        <h6>{{m.address}}</h6>
+    </div>
+    <div class="mobile">
+        <h6>{{m.mobile}}</h6>
+    </div>
+    <div class="pin">
+        <h6>{{m.pin}}</h6>
+    </div>
+    <div class="gst_number">
+        <h6>{{m.gst_number}}</h6>
+    </div>
+    <div class="license_number">
+        <h6>{{m.license_number}}</h6>
+    </div>
+    <div class="jurisdiction">
+        <h6>{{m.jurisdiction}}</h6>
+    </div>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        edit
+      </button>
+</div>
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Profile</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST">{% csrf_token %}
+                <input name="medical_id" type="hidden" class="form-control" value="{{m.id}}">
+                <div class="mb-3"><label>Medical Name</label><input name="medical_name" type="text" class="form-control" value="{{m.medical_name}}"></div>
+                <div class="mb-3"><label>Address</label><input name="address" type="text" class="form-control" value="{{m.address}}"></div>
+                <div class="mb-3"><label>Mobile</label><input name="mobile" type="text" class="form-control" value="{{m.mobile}}"></div>
+                <div class="mb-3"><label>Pin</label><input name="pin" type="text" class="form-control" value="{{m.pin}}"></div>
+                <div class="mb-3"><label>Gst Number</label><input name="gst_number" type="text" class="form-control" placeholder="Gst Number" value="{{m.gst_number}}"></div>
+                <div class="mb-3"><label>License Number</label><input name="license_number" type="text" class="form-control" placeholder="License Number" value="{{m.license_number}}"></div>
+                <div class="mb-3"><label>jurisdiction</label><input name="jurisdiction" type="text" class="form-control" placeholder="E & OE jurisdiction" value="{{m.license_number}}"></div>
+                <button class="btn btn-info" name="Edit_Profile" type="submit">edit</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+{% endblock content %}

@@ -320,3 +320,37 @@ def complate_bill(request):
     else:
         return redirect('/')
     
+def profile(request):
+    if request.session.has_key('owner_mobile'):
+        owner_mobile = request.session['owner_mobile']
+        context={}
+        m=Medical.objects.filter(mobile=owner_mobile).first()
+        if m:
+            m=Medical.objects.get(mobile=owner_mobile)
+        if 'Edit_Profile' in request.POST:
+            medical_id = request.POST.get('medical_id')
+            medical_name = request.POST.get('medical_name')
+            address = request.POST.get('address')
+            mobile = request.POST.get('mobile')
+            pin = request.POST.get('pin')
+            gst_number = request.POST.get('gst_number')
+            license_number = request.POST.get('license_number')
+            jurisdiction = request.POST.get('jurisdiction')
+            Medical(
+                medical_name=medical_name,
+                address=address,
+                mobile=mobile,
+                pin=pin,
+                gst_number=gst_number,
+                license_number=license_number,
+                jurisdiction=jurisdiction,
+                id=medical_id,
+                ).save()
+            return redirect('/owner/profile/')
+        context={
+            'm':m
+        }
+        
+        return render(request, 'owner/profile.html', context)
+    else:
+        return redirect('/')
