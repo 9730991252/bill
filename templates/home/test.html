@@ -1,0 +1,64 @@
+{% extends 'home/base.html' %}
+{% block content %}
+<style>
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    .converter {
+        margin-bottom: 20px;
+    }
+
+    label {
+        margin-right: 10px;
+    }
+
+    input {
+        padding: 5px;
+        width: 100px;
+    }
+
+    button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .result {
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
+</style>
+<div class="container">
+    <div class="converter">
+        <label for="inches">Inches:</label>
+        <input type="number" oninput="convert()" class="form-control" id="inches" placeholder="Enter inches">
+    </div>
+    <div id="result" class="result"></div>
+</div>
+<script>
+    function convert() {
+        const inches = parseFloat(document.getElementById('inches').value);
+        const feet = inches / 12;
+        const roundedFeet = Math.ceil(feet * 2) / 2;
+        document.getElementById('result').innerHTML = `
+           feet = ${roundedFeet.toFixed(1)}
+        `;
+    }
+</script>
+{% endblock content %}

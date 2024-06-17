@@ -34,3 +34,8 @@ def woner_logout(request):
     del  request.session['owner_mobile']
     return redirect('/')
 
+
+
+
+def test(request):
+    return render(request, 'home/test.html')
