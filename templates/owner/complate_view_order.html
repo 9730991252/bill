@@ -130,7 +130,7 @@
               <div class="row">
               <div class="col-8"><td>{{o.add_stock.item_name}}</td></div>
               <div class="col-8"><td>{{o.add_stock.batch_number}}</td></div>
-              <div class="col-8"><td>{{o.add_stock.expiry_date}}</td></div>
+              <div class="col-8"><td>{{o.add_stock.expiry_date|date:"m-Y"}}</td></div>
               <div class="col-1"><td>{{o.qty}}</td></div>
               <div class="col-1"><td>{{o.sell_price_per_unit}}</td></div>
               <div class="col-2"><td>{{ o.total_price|floatformat:2 }}</td></div>
