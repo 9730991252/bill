@@ -26,10 +26,14 @@
       display: flex;
       justify-content: space-between;
     }
+    .licen_gst{
+      display: flex;
+      justify-content: space-between;  
+    }
 </style>
 <style media="print">
     @page{
-    size: 4in 4in;
+    size: 4in 6in;
     margin: 0in;
     padding: 0in;
   }
@@ -52,14 +56,10 @@
   </style>
 <h6 class="p" >Welcome.{{m.medical_name}}</h6>
 <a class="btn btn-danger m-3 p" href="/owner/owner_dashboard/">back</a>
-
-
-
-
 <div class="container border">
         <div class="row">
             <div class="col-11">
-                <h3 class="text-center">{{m.medical_name}}</h3>
+                <h5 class="text-center">{{m.medical_name}}</h5>
             </div>
         </div>
         <div class="row">
@@ -99,19 +99,12 @@
         </div>
         {% endif %}
 
-
       </div>
-
-
-
         <div class="bd">
             <div class="bill_number"><h6>Bill Number-  {{bill_number}}</h6></div>
             <div class="date"><h6>Date-  {{date}}</h6></div>
         </div>
     </div>
-    
-    
-    
     
     <div class="container border">
           
@@ -145,20 +138,20 @@
             {% endfor %}
           </tbody>
         </table>
+        <div class="licen_gst">
+          <div>{{m.license_number}}</div>
+          <div>{{m.gst_number}}</div>
+          <div>{{m.jurisdiction}}</div>
+        </div>
         <div class="print_foot">
-          <div class="licen">
-            <div>{{m.license_number}}</div>
-            <div>{{m.gst_number}}</div>
-            <div>{{m.jurisdiction}}</div>
-          </div>
           <div>
             <div>{{m.medical_name}}</div>
             <div style="margin-bottom: 30px;"></div>
-            <div class="text-center" >pharmacists</div>
+            <div class="my-2" >pharmacists</div>
           </div>
           <div>
             <div><h6>Total Amount Rs. {{t}}</h6></div>
-            <div><h6>Thank You Visit Again</h6></div>
+            <div>Thank You Visit Again</div>
           </div>
       </div>
       </div>

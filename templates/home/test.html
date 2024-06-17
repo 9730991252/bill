@@ -83,17 +83,17 @@
         var result_sec = document.getElementById('result_sec').innerHTML;
      
         s = (result * result_sec);
-        console.log(s)
         document.getElementById('sq').innerHTML = ` = ${s} `
     }
 
 test()
 function test(){
-  
-    const inches = parseFloat(document.getElementById('inches').value);
-   if( inches > 48 , inches < 60 ) {
-    document.getElementById('result').innerHTML`5 feet`;
-   }
+    k = 63
+    if(47 < k && 61 > k ){
+        console.log('5 feet first')
+        
+    }
+    
 }
 </script>
 {% endblock content %}
