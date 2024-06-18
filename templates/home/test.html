@@ -47,53 +47,151 @@
 <div class="container">
     <div class="converter">
         <label for="inches">Inches:</label>
-        <input type="number" oninput="convert()"  id="inches" placeholder="Enter inches"> x
-        <input type="number" oninput="convert_sec()"  id="inches_sec" placeholder="Enter inches">
+        <input type="number" oninput="convert_feet(),square_feet()"  id="inches" placeholder="Enter inches"> x
+        <input type="number" oninput="convert_feet_sec(),square_feet()"  id="inches_sec" placeholder="Enter inches">
     </div>
     <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-    <div id="result" class="result"></div>
+    <div class="result"><strong id="result"></strong> </div>
     <div>X</div>
-    <div id="result_sec" class="result"></div>
-    <div id="sq" class="result"></div>
+    <div class="result"> <strong id="result_sec"></strong> </div>
+    <div id="sq_result"> </div>
 </div>
 </div>
 <script>
-    function convert() {
-        const inches = parseFloat(document.getElementById('inches').value);
-        const feet = inches / 12;
-        const roundedFeet = Math.ceil(feet * 2) / 2;
-        document.getElementById('result').innerHTML = `
-           ${roundedFeet.toFixed(1)}
-        `;
-        sq()
+    function convert_feet() {
+        const inches = parseInt(document.getElementById('inches').value)
+        if(inches >= 1 && 4 >= inches){
+           const inches = 0.33
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 5 && 12 >= inches){
+           const inches = 1
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 13 && 18 >= inches){
+           const inches = 1.5
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 19 && 24 >= inches){
+           const inches = 2
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 25 && 30 >= inches){
+           const inches = 2.5
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 31 && 36 >= inches){
+           const inches = 3
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 37 && 42 >= inches){
+           const inches = 3.5
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 43 && 47 >= inches){
+           const inches = 4
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 48 && 60 >= inches){
+           const inches = 5
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 61 && 72 >= inches){
+           const inches = 6
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 73 && 84 >= inches){
+           const inches = 7
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 85 && 96 >= inches){
+           const inches = 8
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+        if(inches >= 97 && 108 >= inches){
+           const inches = 9
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+       
+        if(inches >= 109 ){
+           const inches = 0
+           var result = document.getElementById('result').innerHTML = inches;
+        }
+       
+
     }
-    function convert_sec() {
-        const inches = parseFloat(document.getElementById('inches_sec').value);
-        const feet = inches / 12;
-        const roundedFeet = Math.ceil(feet * 2) / 2;
-        document.getElementById('result_sec').innerHTML = `
-              ${roundedFeet.toFixed(1)}
-        `;
-        sq()
-    }
-    function sq(){
-        var result = document.getElementById('result').innerHTML;
-      
-  
-        var result_sec = document.getElementById('result_sec').innerHTML;
-     
-        s = (result * result_sec);
-        document.getElementById('sq').innerHTML = ` = ${s} `
+    function convert_feet_sec() {
+        const inches = parseInt(document.getElementById('inches_sec').value)
+        if(inches >= 1 && 4 >= inches){
+           const inches = 0.33
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 5 && 12 >= inches){
+           const inches = 1
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 13 && 18 >= inches){
+           const inches = 1.5
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 19 && 24 >= inches){
+           const inches = 2
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 25 && 30 >= inches){
+           const inches = 2.5
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 31 && 36 >= inches){
+           const inches = 3
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 37 && 42 >= inches){
+           const inches = 3.5
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 43 && 47 >= inches){
+           const inches = 4
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 48 && 60 >= inches){
+           const inches = 5
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 61 && 72 >= inches){
+           const inches = 6
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 73 && 84 >= inches){
+           const inches = 7
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 85 && 96 >= inches){
+           const inches = 8
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+        if(inches >= 97 && 108 >= inches){
+           const inches = 9
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+       
+        if(inches >= 109 ){
+           const inches = 0
+           var result = document.getElementById('result_sec').innerHTML = inches;
+        }
+       
+
     }
 
-test()
-function test(){
-    k = 63
-    if(47 < k && 61 > k ){
-        console.log('5 feet first')
-        
-    }
-    
+    function square_feet() {
+        var result = parseFloat(document.getElementById('result').innerHTML); 
+        var result_sec = parseFloat(document.getElementById('result_sec').innerHTML); 
+        num=result*result_sec   
+        num=Math.ceil(num)
+             let n = num.toFixed();
+        document.getElementById('sq_result').innerHTML = `= <strong><h class="text-bg-success p-1">${n}</h></strong>`
+    //sq= result*result_sec
+   
 }
 </script>
 {% endblock content %}
