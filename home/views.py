@@ -39,3 +39,10 @@ def woner_logout(request):
 
 def test(request):
     return render(request, 'home/test.html')
+
+
+
+
+
+def QR(request):
+    return render(request, 'home/QR.html')
