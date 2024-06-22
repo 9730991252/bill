@@ -1,49 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
-</head>
-<body>
-   <div id="you-qr-result"></div>
-   <h1>scan qr html</h1>
-   <div style="display: flex;justify-content: center;">
-      <div id="my-qr-reader" style="height: 500px; width: 500px;">
+{% load static %}
 
-      </div>
-   </div>
-
-
-   <h1 id="ruselt"></h1>
-
-   <script src="http://unpkg.com/html5-qrcode"></script>
-
-   <script>
-      function domReady(fn){
-         if(document.readyState === "complete" || document.readyState === "interactive"){
-            setTimeout(fn,1)
-         }else{
-            document.addEventListener("DOMContentLoaded",fn)
-         }
-      }
-      domReady(function(){
-         var myqr = document.getElementById('you-qr-result')
-         var lastResult,countResult = 0;
-
-         function onScanSuccess(decodeText,decodeResult){
-            if(decodeText !== lastResult){
-               ++countResult;
-               lastResult = decodeText;
-               document.getElementById('ruselt').innerHTML=`${decodeText}`
-               myqr.innerHTML = ` you scan ${countResult} : ${decodeText}`
-               console.log(decodeText)
-            }
-         }
-         var htmlscanner = new Html5QrcodeScanner(
-            "my-qr-reader",{fps:120,qrbox:250})
-         htmlscanner.render(onScanSuccess)
-      })
-   </script>
-</body>
-</html>
+<script src="{% static 'js/html5-qrcode.min.js' %}"></script>
+<style>
+  .result{
+    background-color: green;
+    color:#fff;
+    padding:20px;
+  }
+  .row{
+    display:flex;
+  }
+</style>
+<div class="row">
+  <div class="col">
+    <div style="width:500px;" id="reader"></div>
+  </div>
+  <div class="col" style="padding:30px;">
+    <h4>SCAN RESULT</h4>
+    <div id="result">Result Here</div>
+  </div>
+</div>
+<script type="text/javascript">
+function onScanSuccess(qrCodeMessage) {
+    document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
+}
+function onScanError(errorMessage) {
+  //handle scan error
+}
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess, onScanError);
+</script>
